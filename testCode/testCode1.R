@@ -3,8 +3,8 @@ library(pracma)
 
 #check test statistic
 set.seed(28072022)
-n=5
-lambda=5
+n=10000
+lambda=1
 x=rexp(n,rate=lambda)
 
 F<-function(x){
@@ -13,9 +13,8 @@ F<-function(x){
 
 
 
-testStatisticGeneral(x,F)
-testStatisticGeneral(x,F,0,2)
-testStatisticExponentialDistribution(x,lambda)
+distanceGeneral(x,F,0)
+distanceExponentialDistribution(x,lambda)
 
 
 
