@@ -33,9 +33,6 @@ distanceExponentialDistribution<-function(x,lambda){
 }
 
 distancePowerLaw<-function(x, xmin, alpha){
-  if(alpha==2){
-    return(distancePowerLaw2(x,xmin))
-  }
   
   x=sort(x)
   n=length(x)
@@ -55,28 +52,6 @@ distancePowerLaw<-function(x, xmin, alpha){
   }
   
   s=s+0-g(x[n],1,xmin,alpha)
-  return(s)
-}
-
-distancePowerLaw2<-function(x, xmin){
-  x=sort(x)
-  n=length(x)
-  
-  g<-function(x, m, xmin){
-    2*(m-1)*xmin*log(x)-(-m*m*x*x+2*m*x*x+xmin^2-x^2)/x
-  }
-  
-  dg<-function(s,t,xmin,m){
-    g(t,m,xmin)-g(s,m,xmin)
-  }
-  
-  s=dg(xmin,x[1],xmin,0)
-  
-  for (i in c(1:(n-1))) {
-    s=s+dg(x[i],x[i+1],xmin, i/n)
-  }
-  
-  #s=s+0-g(x[n],1,xmin)
   return(s)
 }
 

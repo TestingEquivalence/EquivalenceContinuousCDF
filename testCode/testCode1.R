@@ -13,7 +13,7 @@ F<-function(x){
 
 
 
-distanceGeneral(x,F,0)
+res=distanceGeneral(x,F,0)
 distanceExponentialDistribution(x,lambda)
 
 

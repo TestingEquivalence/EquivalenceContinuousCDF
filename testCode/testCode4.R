@@ -4,19 +4,18 @@ library(poweRlaw)
 
 #check minimum distance estimator for power law
 set.seed(28072022)
-n=100
+n=1000
 xmin=1.0
-alpha=2.0
+alpha=4
 x=rplcon(n,xmin,alpha)
 
 distance<-function(x, param){
-  distancePowerLaw(x, param[1], param[2])
+  distancePowerLaw(x, xmin, param)
 }
 
 distancePowerLaw(x,xmin,alpha)
 
-startParameter=c(xmin,alpha)
-minDistanceEstimator(x,distance,startParameter)
+minDistanceEstimator(x,distance,2.1)
 
 
 
