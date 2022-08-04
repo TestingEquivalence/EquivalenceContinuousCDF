@@ -1,3 +1,6 @@
+library(minpack.lm)
+
+
 distanceGeneral<-function(x,F,lower=-Inf,upper=Inf){
   Fn=ecdf(x)
   
@@ -75,4 +78,15 @@ distancePowerLaw2<-function(x, xmin){
   
   #s=s+0-g(x[n],1,xmin)
   return(s)
+}
+
+minDistanceEstimator<-function(x, distance, startParameter){
+  
+  dst<-function(param){
+    v=distance(x,param)
+    return(v)
+  }
+  d=1
+  res=nls.lm(par=startParameter, fn=dst)
+  return(res)
 }

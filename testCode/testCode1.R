@@ -1,7 +1,7 @@
 source("testStatistic.R")
 library(pracma)
 
-#check test statistic
+#check test statistic for exponential distribution
 set.seed(28072022)
 n=10000
 lambda=1
