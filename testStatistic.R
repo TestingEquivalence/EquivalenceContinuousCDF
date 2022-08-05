@@ -33,7 +33,9 @@ distanceExponentialDistribution<-function(x,lambda){
 }
 
 distancePowerLaw<-function(x, xmin, alpha){
-  
+  if (alpha==2){
+    alpha=alpha+0.0000001
+  }
   x=sort(x)
   n=length(x)
   
@@ -55,13 +57,18 @@ distancePowerLaw<-function(x, xmin, alpha){
   return(s)
 }
 
-minDistanceEstimator<-function(x, distance, startParameter){
+minDistanceEstimator<-function(x, distance, param,interval=NULL){
   
   dst<-function(param){
     v=distance(x,param)
     return(v)
   }
-  d=1
-  res=nls.lm(par=startParameter, fn=dst)
+  
+  if (length(param)==1){
+    res=optimise(dst,interval)
+    return(res)
+  }
+   
+  
   return(res)
 }

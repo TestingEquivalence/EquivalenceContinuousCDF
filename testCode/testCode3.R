@@ -5,25 +5,14 @@ library(pracma)
 
 #set.seed(28072022)
 n=100
-lambda=3
+lambda=2
 x=rexp(n,rate=lambda)
+interval=c(0.1,5)
 
 distance<-function(x, param){
   distanceExponentialDistribution(x,param)
 }
 
+minDistanceEstimator(x,distance,lambda, interval)$minimum
 
-distance2<-function(x,param){
-  F<-function(t){
-    pexp(t,rate=param)
-  }
-  
-  res=distanceGeneral(x,F,0)
-  return(res$value)
-}
-
-
-minDistanceEstimator(x,distance,lambda)
-
-minDistanceEstimator(x,distance2,lambda)
 
