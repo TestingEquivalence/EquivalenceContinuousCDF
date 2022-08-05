@@ -37,6 +37,7 @@ distancePowerLaw<-function(x, xmin, alpha){
     alpha=alpha+0.0000001
   }
   x=sort(x)
+  x=x[x>=xmin]
   n=length(x)
   
   g<-function(x, m, xmin, alpha){
@@ -66,9 +67,9 @@ minDistanceEstimator<-function(x, distance, param,interval=NULL){
   
   if (length(param)==1){
     res=optimise(dst,interval)
-    return(res)
+    return(res$minimum)
   }
    
-  
-  return(res)
+  res=optim(par = param,fn=dst)
+  return(res$par)
 }

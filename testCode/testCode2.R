@@ -17,8 +17,8 @@ F<-function(x){
 
 max(x)
 distanceGeneral(x,F,xmin,3*max(x))
-distancePowerLaw(x,xmin,alpha)
-distancePowerLaw2(x,xmin)
+distancePowerLaw(x,100,alpha)
+
 
 
 
