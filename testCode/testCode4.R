@@ -21,9 +21,15 @@ distance3<-function(x, param){
   distancePowerLaw(x, param[1], param[2])
 }
 
-minDistanceEstimator(x,distance1,param = alpha, interval = c(1,3))
-minDistanceEstimator(x,distance2,param = xmin, interval=c(0.5,10))
-minDistanceEstimator(x,distance3,param = c(xmin,alpha))
+est1=minDistanceEstimator(x,distance1,param = alpha, interval = c(1,3))
+est2=minDistanceEstimator(x,distance2,param = xmin, interval=c(0.5,10))
+est3=minDistanceEstimator(x,distance3,param = c(xmin,alpha))
 
+est1
+est2
+est3
 
+testStatistic(x,distance1,est1)
+testStatistic(x,distance2,est2)
+testStatistic(x,distance3,est3)
 
