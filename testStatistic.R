@@ -73,3 +73,7 @@ minDistanceEstimator<-function(x, distance, param,interval=NULL){
   res=optim(par = param,fn=dst)
   return(res$par)
 }
+
+testStatistic<-function(x, distance, param){
+  return(distance(x,param))
+}

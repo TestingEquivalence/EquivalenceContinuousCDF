@@ -13,6 +13,7 @@ distance<-function(x, param){
   distanceExponentialDistribution(x,param)
 }
 
-minDistanceEstimator(x,distance,lambda, interval)$minimum
-
+est=minDistanceEstimator(x,distance,lambda, interval)
+est
+testStatistic(x,distance,est)
 
