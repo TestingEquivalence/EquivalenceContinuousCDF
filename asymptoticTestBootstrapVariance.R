@@ -7,10 +7,10 @@ bootstrapVolatility<-function(parameter, results){
     x=dat[ind]
     # compute minimum distance estimator
     est=minDistanceEstimator(x,parameter$distance, 
-                             results$minimum.distance.estimator,
+                             results$estimator,
                              parameter$interval)
-    # compute von Mises distance
-    testStatistic(x,est)
+    # compute von-Mises distance
+    testStatistic(x,parameter$distance,est)
   }
   
   bres=boot(parameter$x,vol.fun,R=parameter$nSimulation)
@@ -25,17 +25,18 @@ asymptoticTestBootstrapVariance<-function(parameter){
   r=list()
   
   # compute minimum distance estimator
-  r$minimum.distance.estimator=minDistanceEstimator(parameter$x,parameter$distance,
+  r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
                                          parameter$startValue,parameter$interval)
   
   # compute von Mises distance
-  r$distance=testStatistic(parameter$x,parameter$distance)
+  r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)
   
   #compute 
   
-  vol = bootstrapVolatility(parameter)
+  vol = bootstrapVolatility(parameter, results = r)
   qt=qnorm(1-parameter$alpha,0,1)
   
-  min_eps = r$distance + qt*vol
-  return(min_eps)
+  r$epsilon = r$distance + qt*vol
+  r$volatility=vol
+  return(r)
 }
