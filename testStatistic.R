@@ -10,6 +10,7 @@ distanceGeneral<-function(x,F,lower=-Inf,upper=Inf){
   }
   integrate(ff,lower,upper)
 }
+
 distanceExponentialDistribution<-function(x,lambda){
   x=sort(x)
   n=length(x)

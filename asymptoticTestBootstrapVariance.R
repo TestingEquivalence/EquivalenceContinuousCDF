@@ -1,6 +1,6 @@
 library(boot)
 
-bootstrapVolatility<-function(parameter, results){
+bootstrapStandardDeviation<-function(parameter, results){
   
   #calculate bootstrap volatility
   vol.fun<-function(dat,ind){
@@ -19,24 +19,24 @@ bootstrapVolatility<-function(parameter, results){
 }
 
 asymptoticTestBootstrapVariance<-function(parameter){
-  # parameter should contain x, distance, startValue,interval, alpha
+  # parameter should contain x, distance, start_value,interval, alpha
   
   # list for results
   r=list()
   
   # compute minimum distance estimator
   r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
-                                         parameter$startValue,parameter$interval)
+                                         parameter$start_value,parameter$interval)
   
   # compute von Mises distance
   r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)
   
-  #compute 
+  #compute standard deviation (square root of the variance)
   
-  vol = bootstrapVolatility(parameter, results = r)
+  stDev = bootstrapStandardDeviation(parameter, results = r)
   qt=qnorm(1-parameter$alpha,0,1)
   
-  r$epsilon = r$distance + qt*vol
-  r$volatility=vol
+  r$epsilon = r$distance + qt*stDev
+  r$standard_deviation=stDev
   return(r)
 }

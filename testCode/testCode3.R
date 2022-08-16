@@ -1,6 +1,7 @@
 source("testStatistic.R")
 library(pracma)
 source("asymptoticTestBootstrapVariance.R")
+source("asymptoticTest.R")
 
 #check minimum distance estimator for exponential distribution
 
@@ -22,11 +23,16 @@ testStatistic(x,distance,est)
 parameter=list()
 parameter$x=x
 parameter$distance=distance 
-parameter$startValue=lambda
+parameter$start_value=lambda
 parameter$interval=interval
 parameter$alpha=0.05
 parameter$nSimulation=1000
 
 # check asymptotic test with bootstrap volatility
-res=asymptoticTestBootstrapVariance(parameter)
-res
+res1=asymptoticTestBootstrapVariance(parameter)
+res1
+
+# check asymptotic test
+parameter$standard_deviation=standardDeviationExponential
+res2=asymptoticTest(parameter)
+res2

@@ -1,6 +1,6 @@
 
 
-asymptoticVarianceExpomential<-function(parameter, results){
+standardDeviationExponential<-function(parameter, results){
   x=parameter$x
   lambda=results$estimator
   n=length(x)
@@ -10,10 +10,10 @@ asymptoticVarianceExpomential<-function(parameter, results){
   }
   
   def<-function(m,lambda,s,t){
-    f(m,lambda,t)-f(m,lambda,s)
+    ef(m,lambda,t)-ef(m,lambda,s)
   }
   
-  pef<function(m,i){
+  pef<-function(i){
     if (i==0){
       return(def(0,lambda,0,x[1]))
     } 
@@ -26,12 +26,13 @@ asymptoticVarianceExpomential<-function(parameter, results){
   }
   
   
+  r=0
   for (i in c(0:n)){
-    p2=0
+    p2=pef(i)
     
-    for (l in c(0:n)){
-      p1=min(k,l)/n-k*l/(n^2)
-      p3=pf(l,n,U)
+    for (j in c(0:n)){
+      p1=min(i,j)/n-i*j/(n^2)
+      p3=pef(j)
         
       r=r+p1*p2*p3
     }
@@ -40,14 +41,24 @@ asymptoticVarianceExpomential<-function(parameter, results){
 }
 
 asymptoticTest<-function(parameter){
-  #calculate asymptotic min eps
-  U=uTransform(parameter$x, parameter$F)
-  n=length(parameter$x)
-  vol = asymptoticVariance(U)/n
-  vol=sqrt(vol)
+  # parameter should contain x, distance, start_value,interval, alpha, standard_deviation
+  
+  # list for results
+  r=list()
+  
+  # compute minimum distance estimator
+  r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
+                                   parameter$start_value,parameter$interval)
+  
+  # compute von Mises distance
+  r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)
+  
+  #compute standard deviation (square root of the variance)
+  
+  stDev = parameter$standard_deviation(parameter, results=r)
   qt=qnorm(1-parameter$alpha,0,1)
   
-  distance=testStatisticAD(U)
-  min_eps = distance + qt*vol
-  return(min_eps)
+  r$epsilon = r$distance + qt*stDev
+  r$standard_deviation=stDev
+  return(r)
 }
