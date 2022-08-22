@@ -6,8 +6,8 @@ source("asymptoticTest.R")
 #check minimum distance estimator for exponential distribution
 
 set.seed(28072022)
-n=100
-lambda=2
+n=1000
+lambda=1
 x=rexp(n,rate=lambda)
 interval=c(0.1,5)
 

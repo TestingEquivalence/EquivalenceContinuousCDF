@@ -17,5 +17,3 @@ res=distanceGeneral(x,F,0)
 distanceExponentialDistribution(x,lambda)
 
 
-
-

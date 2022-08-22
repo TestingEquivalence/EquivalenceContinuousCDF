@@ -37,6 +37,8 @@ standardDeviationExponential<-function(parameter, results){
       r=r+p1*p2*p3
     }
   }
+  r=4*r
+  r=sqrt(r/n)
   return(4*r)
 }
 
