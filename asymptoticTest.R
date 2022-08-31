@@ -39,7 +39,7 @@ standardDeviationExponential<-function(parameter, results){
   }
   r=4*r
   r=sqrt(r/n)
-  return(4*r)
+  return(r)
 }
 
 asymptoticTest<-function(parameter){
