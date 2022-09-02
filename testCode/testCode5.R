@@ -10,7 +10,7 @@ source("asymptoticTest.R")
 parameter=list()
 set.seed(28072022)
 
-n=200
+n=10
 lambda=1
 parameter$interval=c(0.1,5)
 parameter$nSimulation=1000
@@ -25,8 +25,8 @@ vB=rep(0,m)
 vA=rep(0,m)
 
 for (i in c(1:m)){
-  #x=rlnorm(n,0,1)
-  x=rexp(n,lambda)
+  x=rlnorm(n,0,1)
+  # x=rexp(n,lambda)
   parameter$x=x
   est=minDistanceEstimator(x,distance,lambda, parameter$interval)
   res=list()
