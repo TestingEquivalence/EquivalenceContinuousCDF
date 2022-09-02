@@ -2,6 +2,7 @@
 
 standardDeviationExponential<-function(parameter, results){
   x=parameter$x
+  x=sort(x)
   lambda=results$estimator
   n=length(x)
   
@@ -13,16 +14,16 @@ standardDeviationExponential<-function(parameter, results){
     ef(m,lambda,t)-ef(m,lambda,s)
   }
   
-  pef<-function(i){
-    if (i==0){
+  pef<-function(k){
+    if (k==0){
       return(def(0,lambda,0,x[1]))
     } 
     
-    if (i==n){
+    if (k==n){
       return(-ef(1,lambda,x[n]))
     }
     
-    return(def(i/n,lambda,x[i],x[i+1]))
+    return(def(k/n,lambda,x[k],x[k+1]))
   }
   
   
