@@ -19,7 +19,7 @@ bootstrapStandardDeviation<-function(parameter, results){
 }
 
 asymptoticTestBootstrapVariance<-function(parameter){
-  # parameter should contain x, distance, start_value,interval, alpha
+  # parameter should contain x, distance, start_value,interval, alpha, nSimulation
   
   # list for results
   r=list()
@@ -36,7 +36,7 @@ asymptoticTestBootstrapVariance<-function(parameter){
   stDev = bootstrapStandardDeviation(parameter, results = r)
   qt=qnorm(1-parameter$alpha,0,1)
   
-  r$epsilon = r$distance + qt*stDev
+  r$min.epsilon = r$distance + qt*stDev
   r$standard_deviation=stDev
   return(r)
 }

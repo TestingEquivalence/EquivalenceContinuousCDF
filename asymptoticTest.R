@@ -61,7 +61,7 @@ asymptoticTest<-function(parameter){
   stDev = parameter$standard_deviation(parameter, results=r)
   qt=qnorm(1-parameter$alpha,0,1)
   
-  r$epsilon = r$distance + qt*stDev
+  r$min.epsilon = r$distance + qt*stDev
   r$standard_deviation=stDev
   return(r)
 }
