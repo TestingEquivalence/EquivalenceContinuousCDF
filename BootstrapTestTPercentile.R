@@ -16,22 +16,23 @@ tPercentileBootstrapTest<-function(parameter){
   stDev = parameter$standard_deviation(parameter, results=r)
   
   #calculate bootstrap distribution
-  t.fun<-function(dat,ind,parameter){
+  t.fun<-function(dat,ind){
     x=dat[ind]
     # compute minimum distance estimator
     br=list()
     br$estimator=minDistanceEstimator(x,parameter$distance, 
-                             results$estimator,
+                             r$estimator,
                              parameter$interval)
     # compute von-Mises distance
     dstBst=testStatistic(x,parameter$distance,br$estimator)
     
-    parameter$x=x
-    stDevBst=parameter$standard_deviation(parameter, results=br)
+    bp=list()
+    bp$x=x
+    stDevBst=parameter$standard_deviation(parameter=bp, results=br)
     return((dstBst-r$distance)/stDevBst)
   }
   
-  res=boot(U,t.fun,R=parameter$nSimulation, parameter)
+  res=boot(parameter$x,t.fun,R=parameter$nSimulation)
   
   #calculate quantile of bootstrap distribution
   qt=quantile(res$t,parameter$alpha,type=1)
