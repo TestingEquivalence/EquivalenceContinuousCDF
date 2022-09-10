@@ -18,10 +18,12 @@ parameter$standard_deviation=standardDeviationExponential
 parameter$start_value=1
 
 
-# tests at the exponential distribution
+# tests at the exponential distribution /log normal distribution
 n=100
 lambda=1
-parameter$x=rexp(n,lambda)
+#parameter$x=rexp(n,lambda)
+parameter$x=rlnorm(n,lambda)
+
 rAT=asymptoticTest(parameter)
 rATBV=asymptoticTestBootstrapVariance(parameter)
 rEB=empiricalBootstrapTest(parameter)
