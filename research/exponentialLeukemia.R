@@ -9,7 +9,7 @@ library(MASS)
 
 
 #compare estimators first
-x=dataSetWaitingTimes
+x=dataSetLeukemia
 interval=c(0.00001,1)
 start=1
 
@@ -47,18 +47,36 @@ parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationExponential
 parameter$nSimulation=1000
 
-asymptoticTest(parameter)$min.epsilon
-asymptoticTestBootstrapVariance(parameter)$min.epsilon
-empiricalBootstrapTest(parameter)$min.epsilon
-tPercentileBootstrapTest(parameter)$min.epsilon
+rAT=asymptoticTest(parameter)
+rATBV=asymptoticTestBootstrapVariance(parameter)
+rEB=empiricalBootstrapTest(parameter)
+rPB=tPercentileBootstrapTest(parameter)
 
+rAT$min.epsilon
+rATBV$min.epsilon
+rEB$min.epsilon
+rPB$min.epsilon
 
 # simulate power at estimated distribution
 
 test<-function(x){
-  
+  parameter$x=x
+  r=asymptoticTest(parameter)
+  #r=asymptoticTestBootstrapVariance(parameter)
+  #r=empiricalBootstrapTest(parameter)
+  #r=tPercentileBootstrapTest(parameter)
+  return(r$min.epsilon)
 }
 
-simulatePowerAtExponential(asymptoticTest,
+res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
 fn=paste0("size_as_",parameter$n,".csv")
 write.csv(res,fn)
+
+f<-function(u){
+  as.numeric(quantile(x, type = 4, probs = u))
+}
+
+t=seq(0,1,0.01)
+y=sapply(t,f)
+y=as.vector(y)
+plot(t, y)

@@ -9,7 +9,7 @@ simulatePowerAtExponential<-function(test, rate, n, nSimulation){
   
   res=rep(0,nSimulation)
   for (i in c(1:nSimulation)){
-    res[i]=test(sim[i])$min.epsilon
+    res[i]=test(sim[[i]])
     print(i)
   }
 
