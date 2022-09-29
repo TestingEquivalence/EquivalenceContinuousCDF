@@ -61,16 +61,76 @@ rPB$min.epsilon
 
 test<-function(x){
   parameter$x=x
-  r=asymptoticTest(parameter)
-  #r=asymptoticTestBootstrapVariance(parameter)
-  #r=empiricalBootstrapTest(parameter)
-  #r=tPercentileBootstrapTest(parameter)
+  # r=asymptoticTest(parameter)
+  # r=asymptoticTestBootstrapVariance(parameter)
+   r=empiricalBootstrapTest(parameter)
+  # r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
 res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_as_",parameter$n,".csv")
+fn=paste0("size_EB.csv")
 write.csv(res,fn)
+
+# fitting to the common alternative simulation and power calculation
+###################################################################
+
+# Weibull distribution
+est=fitdistr(parameter$x, "weibull")
+
+CDF<-function(x){
+  pweibull(x,est$estimate[1],est$estimate[2])
+}
+
+dst=distanceGeneral(parameter$x,CDF,0,10000)
+dst$value
+
+wx=rweibull(1e4,est$estimate[1],est$estimate[2])
+parameter$x=wx
+asymptoticTest(parameter)
+
+rdf<-function(n){
+  rweibull(n,est$estimate[1],est$estimate[2])
+}
+
+res=simulatePowerAtDistribution(test,rdf,n=length(parameter$x), nSimulation = 1000)
+fn=paste0("size_AT.csv")
+write.csv(res,fn)
+
+# Lognormal distribution
+est=fitdistr(parameter$x, "log-normal")
+
+CDF<-function(x){
+  plnorm(x,est$estimate[1],est$estimate[2])
+}
+
+dst=distanceGeneral(parameter$x,CDF,0,100000)
+dst$value
+
+wx=rlnorm(1e4,est$estimate[1],est$estimate[2])
+parameter$x=wx
+asymptoticTest(parameter)
+
+# rdf<-function(n){
+#   rweibull(n,est$estimate[1],est$estimate[2])
+# }
+# 
+# res=simulatePowerAtDistribution(test,rdf,n=length(parameter$x), nSimulation = 1000)
+# fn=paste0("size_AT.csv")
+# write.csv(res,fn)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 f<-function(u){
   as.numeric(quantile(x, type = 4, probs = u))

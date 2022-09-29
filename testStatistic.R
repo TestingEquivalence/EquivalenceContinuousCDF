@@ -8,7 +8,7 @@ distanceGeneral<-function(x,F,lower=-Inf,upper=Inf){
   ff<-function(x){
     (Fn(x)-F(x))^2
   }
-  integrate(ff,lower,upper)
+  integrate(ff,lower,upper, subdivisions = 1e6)
 }
 
 distanceExponentialDistribution<-function(x,lambda){
