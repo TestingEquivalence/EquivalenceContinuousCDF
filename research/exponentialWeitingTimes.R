@@ -10,7 +10,7 @@ library(extraDistr)
 
 
 #compare estimators first
-x=dataSetLeukemia
+x=dataSetWaitingTimes
 interval=c(0.00001,1)
 start=1
 
