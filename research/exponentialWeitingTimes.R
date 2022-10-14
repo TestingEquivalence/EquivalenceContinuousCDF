@@ -62,15 +62,15 @@ rPB$min.epsilon
 
 test<-function(x){
   parameter$x=x
-  # r=asymptoticTest(parameter)
+   r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
-   r=empiricalBootstrapTest(parameter)
+  # r=empiricalBootstrapTest(parameter)
   # r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
 res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_EB.csv")
+fn=paste0("size_AT.csv")
 write.csv(res,fn)
 
 # fitting to the common alternative simulation and power calculation
@@ -90,15 +90,16 @@ wx=rweibull(1e4,est$estimate[1],est$estimate[2])
 parameter$x=wx
 asymptoticTest(parameter)
 
-rdf<-function(n){
-  rweibull(n,est$estimate[1],est$estimate[2])
-}
-
-res=simulatePowerAtDistribution(test,rdf,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_AT.csv")
-write.csv(res,fn)
+# rdf<-function(n){
+#   rweibull(n,est$estimate[1],est$estimate[2])
+# }
+# 
+# res=simulatePowerAtDistribution(test,rdf,n=length(parameter$x), nSimulation = 1000)
+# fn=paste0("size_AT.csv")
+# write.csv(res,fn)
 
 # Lognormal distribution
+parameter$x=dataSetWaitingTimes
 est=fitdistr(parameter$x, "log-normal")
 
 CDF<-function(x){
