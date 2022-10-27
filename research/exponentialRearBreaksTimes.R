@@ -10,7 +10,7 @@ library(extraDistr)
 
 
 #compare estimators first
-x=dataSetWaitingTimes
+x=dataSetRearBreaks
 interval=c(0.00001,1)
 start=1
 
@@ -53,6 +53,7 @@ rATBV=asymptoticTestBootstrapVariance(parameter)
 rEB=empiricalBootstrapTest(parameter)
 rPB=tPercentileBootstrapTest(parameter)
 
+rAT$distance
 rAT$min.epsilon
 rATBV$min.epsilon
 rEB$min.epsilon
@@ -78,6 +79,7 @@ write.csv(res,fn)
 
 # Weibull distribution
 est=fitdistr(parameter$x, "weibull")
+est
 
 CDF<-function(x){
   pweibull(x,est$estimate[1],est$estimate[2])
@@ -99,8 +101,9 @@ asymptoticTest(parameter)
 # write.csv(res,fn)
 
 # Lognormal distribution
-parameter$x=dataSetWaitingTimes
+parameter$x=dataSetRearBreaks
 est=fitdistr(parameter$x, "log-normal")
+est
 
 CDF<-function(x){
   plnorm(x,est$estimate[1],est$estimate[2])
@@ -109,12 +112,12 @@ CDF<-function(x){
 dst=distanceGeneral(parameter$x,CDF,0,100000)
 dst$value
 
-wx=rlnorm(1e4,est$estimate[1],est$estimate[2])
+wx=rlnorm(1e3,est$estimate[1],est$estimate[2])
 parameter$x=wx
 asymptoticTest(parameter)
 
 # Gamma distribution
-parameter$x=dataSetWaitingTimes
+parameter$x=dataSetRearBreaks
 est=fitdistr(parameter$x, "gamma")
 est
 
@@ -130,7 +133,7 @@ parameter$x=wx
 asymptoticTest(parameter)
 
 # Half normal distribution
-parameter$x=dataSetWaitingTimes
+parameter$x=dataSetRearBreaks
 start=list()
 start$sigma=1
 est=fitdistr(parameter$x, dhnorm,start)
