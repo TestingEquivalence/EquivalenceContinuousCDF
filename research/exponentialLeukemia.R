@@ -77,47 +77,11 @@ write.csv(res,fn)
 
 # simulate power at random boundary points
 
+parameter$eps=25
 f=randomExteriorPoint(parameter)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # fitting to the common alternative simulation and power calculation
-# ###################################################################
 # 
 # # Weibull distribution
 # est=fitdistr(parameter$x, "weibull")
