@@ -4,6 +4,7 @@ source("asymptoticTest.R")
 source("empiricalBootstrapTest.R")
 source("bootstrapTestTPercentile.R")
 source("distributions//dataSetsExponential.R")
+source("distributions//mixedDistribution.R")
 source("simulation/size.R")
 library(MASS)
 library(extraDistr)
@@ -77,9 +78,9 @@ write.csv(res,fn)
 
 # simulate power at random boundary points
 
-parameter$eps=25
-f=randomExteriorPoint(parameter)
-
+parameter$eps=20
+res=randomExteriorPoint(parameter)
+bpoint=boundaryPoint(parameter,res)
 
 
 # 

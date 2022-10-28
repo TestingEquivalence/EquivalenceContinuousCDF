@@ -19,10 +19,47 @@ randomExteriorPoint<-function(parameter){
     dst=testStatistic(nx,parameter$distance, lambda)
     
     
+    res=list()
     
     if (dst>=parameter$eps){
-      return(f)
+      res$f=f
+      res$lambda=lambda
+      return(res)
     }
   }
+}
+
+boundaryPoint<-function(parameter, extPoint){
+  n=length(parameter$x)
+  
+  rf<-function(m){
+    x=runif(m)
+    x=sapply(x, extPoint$f)
+    return(x)
+  }
+  
+  re<-function(m){
+    rexp(m,rate=extPoint$lambda)
+  }
+  
+  
+  target<-function(w){
+    nx=rMixed(n*10,w,rf,re)
+    
+    # calculate distance from nx to parametric distribution
+    lambda=minDistanceEstimator(nx,parameter$distance, parameter$start_value,parameter$interval)
+    
+    # compute von Mises distance
+    dst=testStatistic(nx,parameter$distance, lambda)
+    
+    return(dst-parameter$eps)
+  }
+  
+  res=uniroot(target,c(0,1))
+  resf<-function(m){
+    rMixed(m,res$root,rf,re)
+  }
+  
+  return(resf)
 }
 

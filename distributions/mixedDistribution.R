@@ -14,21 +14,3 @@ rMixed<-function(n,w,rF,rG){
   res=vw*vF+(1-vw)*vG
   return(res)
 }
-
-boundaryPoint<-function(epsilon,H){
-  G<-function(x){
-    x
-  }
-  
-  f<-function(w){
-    CDF<-function(x){
-      pMixed(x,w,H,G)
-    }
-
-    dst=theoreticADDistance(CDF,G)$value
-    return(dst-epsilon)
-  }
-  
-  res=uniroot(f,c(0,1))
-  return(res$root)
-}
