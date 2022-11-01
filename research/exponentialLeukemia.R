@@ -65,9 +65,9 @@ rPB$min.epsilon
 
 test<-function(x){
   parameter$x=x
-  # r=asymptoticTest(parameter)
+    r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
-   r=empiricalBootstrapTest(parameter)
+  # r=empiricalBootstrapTest(parameter)
   # r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
@@ -81,7 +81,7 @@ write.csv(res,fn)
 parameter$eps=20
 res=randomExteriorPoint(parameter)
 bpoint=boundaryPoint(parameter,res)
-
+rr=simulatePowerAtDistribution(test,bpoint,n=length(parameter$x), nSimulation=1000)
 
 # 
 # # Weibull distribution
