@@ -6,6 +6,7 @@ source("bootstrapTestTPercentile.R")
 source("distributions//dataSetsExponential.R")
 source("distributions//mixedDistribution.R")
 source("simulation/size.R")
+source("simulation/power.R")
 library(MASS)
 library(extraDistr)
 
@@ -79,9 +80,7 @@ write.csv(res,fn)
 # simulate power at random boundary points
 
 parameter$eps=20
-res=randomExteriorPoint(parameter)
-bpoint=boundaryPoint(parameter,res)
-rr=simulatePowerAtDistribution(test,bpoint,n=length(parameter$x), nSimulation=1000)
+res=simulatePowerAtBoundary(parameter,test)
 
 # 
 # # Weibull distribution
