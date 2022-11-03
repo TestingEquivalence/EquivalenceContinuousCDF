@@ -68,7 +68,7 @@ simulatePowerAtBoundary<-function(parameter, test){
   set.seed(12112022)
   exteriorPoints=list()
   bndPoints=list()
-  nPoints=2
+  nPoints=100
   
  #generate alternatives from H0
   for (i in c(1:(nPoints))){
@@ -77,41 +77,27 @@ simulatePowerAtBoundary<-function(parameter, test){
   
   
   for (i in c(1:nPoints)){
-    bndPoints[[i]]=boundaryPoint(parameter,exteriorPoints[[i]])
+    ls=list()
+    ls$rdst=boundaryPoint(parameter,exteriorPoints[[i]])
+    ls$nr=i
+    bndPoints[[i]]=ls
   }
   
-  # j=1
-  # i=1
-  # while(i<=nPoints){
-  #   tryCatch({
-  #     boundaryPoint[[i]]=boundaryPoint(parameter,exteriorPoints[[j]])
-  #   
-  #     i=i+1
-  #     print("ok")
-  #     print(i)
-  #   }, 
-  #   error=function(e){
-  #     print("error")
-  #   },finally = {
-  #   })
-  #   print(j)
-  #   j=j+1
+  cl=getCluster()
+  power=parSapply(cl,bndPoints, simulatePowerAtDistribution, test=test,  
+                  n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
+  stopCluster(cl)
+  
+  # power=sapply(bndPoints, simulatePowerAtDistribution, test=test,  
+  #              n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
+  # 
+  # power=rep(0,nPoints)
+  # for (i in c(1:nPoints)){
+  #   power[i]=simulatePowerAtDistribution(bndPoints[[i]], test, n=length(parameter$x), nSimulation=1000,
+  #                                 parameter$eps)
+  #   print(i)
   # }
 
-  
-  # cl=getCluster()
-  # power=parSapply(cl,bndModels, simulatePowerAtPoint)
-  # stopCluster(cl)
-  
-  # power=sapply(bndModels, simulatePowerAtPoint)
-  
-  power=rep(0,nPoints)
-  for (i in c(1:nPoints)){
-    power[i]=simulatePowerAtDistribution(test,bndPoints[[i]],n=length(parameter$x), nSimulation=1000, 
-                                  parameter$eps, nr=i)
-    print(i)
-  }
-  
   for (i in c(1:nPoints)){
     fname=paste0("r",i,".csv")
     file.remove(fname)

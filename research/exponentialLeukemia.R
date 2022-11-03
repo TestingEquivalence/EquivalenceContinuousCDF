@@ -7,6 +7,7 @@ source("distributions//dataSetsExponential.R")
 source("distributions//mixedDistribution.R")
 source("simulation/size.R")
 source("simulation/power.R")
+source("simulation/simulation.R")
 library(MASS)
 library(extraDistr)
 
@@ -80,6 +81,15 @@ write.csv(res,fn)
 # simulate power at random boundary points
 
 parameter$eps=20
+test<-function(x){
+  parameter$x=x
+  r=asymptoticTest(parameter)
+  # r=asymptoticTestBootstrapVariance(parameter)
+  # r=empiricalBootstrapTest(parameter)
+  # r=tPercentileBootstrapTest(parameter)
+  return(r$min.epsilon)
+}
+
 res=simulatePowerAtBoundary(parameter,test)
 
 # 

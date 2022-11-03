@@ -16,7 +16,9 @@ simulatePowerAtExponential<-function(test, rate, n, nSimulation){
   return(res)
 }
 
-simulatePowerAtDistribution<-function(test, rdst, n, nSimulation, eps,nr){
+simulatePowerAtDistribution<-function(point, test, n, nSimulation, eps){
+  rdst=point$rdst
+  nr=point$nr
   set.seed(10071977)
   fname=paste0("r",nr,".csv")
   
