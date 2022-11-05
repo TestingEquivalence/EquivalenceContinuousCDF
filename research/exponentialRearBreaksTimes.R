@@ -4,16 +4,29 @@ source("asymptoticTest.R")
 source("empiricalBootstrapTest.R")
 source("bootstrapTestTPercentile.R")
 source("distributions//dataSetsExponential.R")
+source("distributions//mixedDistribution.R")
 source("simulation/size.R")
+source("simulation/power.R")
+source("simulation/simulation.R")
 library(MASS)
 library(extraDistr)
 
+# prepare data
 
-#compare estimators first
 x=dataSetRearBreaks
 interval=c(0.00001,1)
 start=1
 
+parameter=list()
+parameter$x=x
+parameter$distance=distanceExponentialDistribution
+parameter$start_value=start
+parameter$interval=interval
+parameter$alpha=0.05
+parameter$standard_deviation=standardDeviationExponential
+parameter$nSimulation=1000
+
+# compare estimators first
 rate.md<-function(dat,ind){
   x=dat[ind]
   # compute minimum distance estimator
@@ -39,21 +52,12 @@ mean(est.ml$t)
 sd(est.ml$t)
 
 # perform tests
-parameter=list()
-parameter$x=x
-parameter$distance=distanceExponentialDistribution
-parameter$start_value=start
-parameter$interval=interval
-parameter$alpha=0.05
-parameter$standard_deviation=standardDeviationExponential
-parameter$nSimulation=1000
 
 rAT=asymptoticTest(parameter)
 rATBV=asymptoticTestBootstrapVariance(parameter)
 rEB=empiricalBootstrapTest(parameter)
 rPB=tPercentileBootstrapTest(parameter)
 
-rAT$distance
 rAT$min.epsilon
 rATBV$min.epsilon
 rEB$min.epsilon
@@ -63,110 +67,29 @@ rPB$min.epsilon
 
 test<-function(x){
   parameter$x=x
-   r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
+  # r=asymptoticTestBootstrapVariance(parameter)
+  # r=empiricalBootstrapTest(parameter)
+  r=tPercentileBootstrapTest(parameter)
+  return(r$min.epsilon)
+}
+
+res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
+fn=paste0("size_tPB.csv")
+write.csv(res,fn)
+
+# simulate power at random boundary points
+
+parameter$eps=20
+test<-function(x){
+  parameter$x=x
+  r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
   # r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
-res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_AT.csv")
-write.csv(res,fn)
-
-# fitting to the common alternative simulation and power calculation
-###################################################################
-
-# Weibull distribution
-est=fitdistr(parameter$x, "weibull")
-est
-
-CDF<-function(x){
-  pweibull(x,est$estimate[1],est$estimate[2])
-}
-
-dst=distanceGeneral(parameter$x,CDF,0,10000)
-dst$value
-
-wx=rweibull(1e4,est$estimate[1],est$estimate[2])
-parameter$x=wx
-asymptoticTest(parameter)
-
-# rdf<-function(n){
-#   rweibull(n,est$estimate[1],est$estimate[2])
-# }
-# 
-# res=simulatePowerAtDistribution(test,rdf,n=length(parameter$x), nSimulation = 1000)
-# fn=paste0("size_AT.csv")
-# write.csv(res,fn)
-
-# Lognormal distribution
-parameter$x=dataSetRearBreaks
-est=fitdistr(parameter$x, "log-normal")
-est
-
-CDF<-function(x){
-  plnorm(x,est$estimate[1],est$estimate[2])
-}
-
-dst=distanceGeneral(parameter$x,CDF,0,100000)
-dst$value
-
-wx=rlnorm(1e3,est$estimate[1],est$estimate[2])
-parameter$x=wx
-asymptoticTest(parameter)
-
-# Gamma distribution
-parameter$x=dataSetRearBreaks
-est=fitdistr(parameter$x, "gamma")
-est
-
-CDF<-function(x){
-  pgamma(x,est$estimate[1],est$estimate[2])
-}
-
-dst=distanceGeneral(parameter$x,CDF,0,100000)
-dst$value
-
-wx=rgamma(1e4,est$estimate[1],est$estimate[2])
-parameter$x=wx
-asymptoticTest(parameter)
-
-# Half normal distribution
-parameter$x=dataSetRearBreaks
-start=list()
-start$sigma=1
-est=fitdistr(parameter$x, dhnorm,start)
-est
-
-CDF<-function(x){
-  phnorm(x,est$estimate[1])
-}
-
-dst=distanceGeneral(parameter$x,CDF,0,100000)
-dst$value
-
-parameter$x=rhnorm(1e4,est$estimate[1])
-asymptoticTest(parameter)
+res=simulatePowerAtBoundary(parameter,test)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-f<-function(u){
-  as.numeric(quantile(x, type = 4, probs = u))
-}
-
-t=seq(0,1,0.01)
-y=sapply(t,f)
-y=as.vector(y)
-plot(t, y)

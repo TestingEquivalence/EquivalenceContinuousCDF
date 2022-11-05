@@ -13,26 +13,42 @@ library(extraDistr)
 
 # prepare data
 
-x=dataSetWaitingTimes
-interval=c(0.00001,1)
-start=1
+#vector of city sizes in Germany
+x=readVector("C:\\data\\list_ge.csv")
+xmin=20000
+interval=NULL
+start=c(2,xmin)
 
 parameter=list()
 parameter$x=x
-parameter$distance=distanceExponentialDistribution
+parameter$distance=distancePowerLaw
 parameter$start_value=start
 parameter$interval=interval
 parameter$alpha=0.05
-parameter$standard_deviation=standardDeviationExponential
+parameter$standard_deviation=standardDeviationExponential()
 parameter$nSimulation=1000
 
 # compare estimators first
+distance_fixedCutOff<-function(x, param){
+  distancePowerLaw(x, xmin,param)
+}
+
+distance<-function(x, param){
+  distancePowerLaw(x, param[1], param[2])
+}
+
+minDistanceEstimator(x,distance_fixedCutOff,param=2, interval=c(1,4))
+minDistanceEstimator(x,distance,param=c(20000,2),lower=c(10000,1), 
+                     upper=c(30000,3))
+
 rate.md<-function(dat,ind){
   x=dat[ind]
   # compute minimum distance estimator
-  est=minDistanceEstimator(x,distanceExponentialDistribution,start,interval)
+  est=minDistanceEstimator(x,distancePowerLaw,start,interval)
   return(est)
 }
+
+
 
 est.md=boot(x,rate.md,R=1000)
 est.md$t0

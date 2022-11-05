@@ -67,15 +67,15 @@ rPB$min.epsilon
 
 test<-function(x){
   parameter$x=x
-    r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
+  r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
 res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_EB.csv")
+fn=paste0("size_tPB.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
@@ -92,70 +92,4 @@ test<-function(x){
 
 res=simulatePowerAtBoundary(parameter,test)
 
-# 
-# # Weibull distribution
-# est=fitdistr(parameter$x, "weibull")
-# 
-# CDF<-function(x){
-#   pweibull(x,est$estimate[1],est$estimate[2])
-# }
-# 
-# dst=distanceGeneral(parameter$x,CDF,0,10000)
-# dst$value
-# 
-# wx=rweibull(1e4,est$estimate[1],est$estimate[2])
-# parameter$x=wx
-# asymptoticTest(parameter)
-# 
-# rdf<-function(n){
-#   rweibull(n,est$estimate[1],est$estimate[2])
-# }
-# 
-# res=simulatePowerAtDistribution(test,rdf,n=length(parameter$x), nSimulation = 1000)
-# fn=paste0("size_AT.csv")
-# write.csv(res,fn)
-# 
-# # Lognormal distribution
-# est=fitdistr(parameter$x, "log-normal")
-# 
-# CDF<-function(x){
-#   plnorm(x,est$estimate[1],est$estimate[2])
-# }
-# 
-# dst=distanceGeneral(parameter$x,CDF,0,100000)
-# dst$value
-# 
-# wx=rlnorm(1e4,est$estimate[1],est$estimate[2])
-# parameter$x=wx
-# asymptoticTest(parameter)
-# 
-# # Gamma distribution
-# est=fitdistr(parameter$x, "gamma")
-# est
-# 
-# CDF<-function(x){
-#   pgamma(x,est$estimate[1],est$estimate[2])
-# }
-# 
-# dst=distanceGeneral(parameter$x,CDF,0,100000)
-# dst$value
-# 
-# wx=rgamma(1e4,est$estimate[1],est$estimate[2])
-# parameter$x=wx
-# asymptoticTest(parameter)
-# 
-# # Half normal distribution
-# start=list()
-# start$sigma=1
-# est=fitdistr(parameter$x, dhnorm,start)
-# est
-# 
-# CDF<-function(x){
-#   phnorm(x,est$estimate[1])
-# }
-# 
-# dst=distanceGeneral(parameter$x,CDF,0,100000)
-# dst$value
-# 
-# parameter$x=rhnorm(1e4,est$estimate[1])
-# asymptoticTest(parameter)
+
