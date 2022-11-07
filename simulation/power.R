@@ -68,7 +68,7 @@ simulatePowerAtBoundary<-function(parameter, test){
   set.seed(12112022)
   exteriorPoints=list()
   bndPoints=list()
-  nPoints=100
+  nPoints=1
   
  #generate alternatives from H0
   for (i in c(1:(nPoints))){

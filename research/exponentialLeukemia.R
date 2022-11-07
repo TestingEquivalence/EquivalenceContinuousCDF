@@ -83,10 +83,10 @@ write.csv(res,fn)
 parameter$eps=20
 test<-function(x){
   parameter$x=x
-  r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
+  r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 

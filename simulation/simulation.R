@@ -8,7 +8,8 @@ getCluster<-function(){
   cl <- makeCluster(no_cores,'SOCK')
   clusterExport(cl,c("rMixed","simulatePowerAtDistribution","parameter","asymptoticTest",
                      "asymptoticTestBootstrapVariance","standardDeviationExponential",
-                     "minDistanceEstimator","testStatistic"))
+                     "minDistanceEstimator","testStatistic","bootstrapStandardDeviation",
+                     "boot","tPercentileBootstrapTest"))
   
   return(cl)
 }
