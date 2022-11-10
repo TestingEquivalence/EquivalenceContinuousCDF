@@ -10,41 +10,35 @@ source("simulation/power.R")
 source("simulation/simulation.R")
 library(MASS)
 library(extraDistr)
+library(poweRlaw)
 
 # prepare data
 
 #vector of city sizes in Germany
 x=readVector("C:\\data\\list_ge.csv")
 xmin=20000
-interval=NULL
-start=c(2,xmin)
+interval=c(2.01,3)
 
 parameter=list()
 parameter$x=x
 parameter$distance=distancePowerLaw
-parameter$start_value=start
 parameter$interval=interval
 parameter$alpha=0.05
-parameter$standard_deviation=standardDeviationExponential()
+parameter$standard_deviation=standardDeviationExponential
 parameter$nSimulation=1000
 
 # compare estimators first
-distance_fixedCutOff<-function(x, param){
+distance<-function(x, param){
   distancePowerLaw(x, xmin,param)
 }
 
-distance<-function(x, param){
-  distancePowerLaw(x, param[1], param[2])
-}
 
-minDistanceEstimator(x,distance_fixedCutOff,param=2, interval=c(1,4))
-minDistanceEstimator(x,distance,param=c(20000,2),lower=c(10000,1), 
-                     upper=c(30000,3))
+minDistanceEstimator(x,distance, param=2, interval=interval)
 
 rate.md<-function(dat,ind){
   x=dat[ind]
   # compute minimum distance estimator
-  est=minDistanceEstimator(x,distancePowerLaw,start,interval)
+  est=minDistanceEstimator(x,distance,param=2, interval)
   return(est)
 }
 
@@ -57,9 +51,9 @@ sd(est.md$t)
 
 rate.ml<-function(dat,ind){
   x=dat[ind]
-  # compute minimum distance estimator
-  est=fitdistr(x,"exponential")
-  return(est$estimate)
+  m = conpl$new(x)
+  m$setXmin(xmin)
+  estimate_pars(m)$pars[1]
 }
 
 est.ml=boot(x,rate.ml,R=1000)
