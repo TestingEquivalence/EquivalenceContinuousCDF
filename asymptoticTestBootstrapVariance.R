@@ -1,21 +1,42 @@
 library(boot)
 
 bootstrapStandardDeviation<-function(parameter, results){
-  
-  #calculate bootstrap volatility
-  vol.fun<-function(dat,ind){
-    x=dat[ind]
-    # compute minimum distance estimator
-    est=minDistanceEstimator(x,parameter$distance, 
+   
+  vol.fun<-function(x){
+    
+    if (length(parameter$startValue)==1){
+      est=minDistanceEstimator(x,parameter$distance, 
                              results$estimator,
                              parameter$interval)
-    # compute von-Mises distance
-    testStatistic(x,parameter$distance,est)
+      r= testStatistic(x,parameter$distance,est)
+      return(r)
+    }
+    
+    est=minDistanceEstimator(x,parameter$distance,
+                             param = parameter$startValue, lower=parameter$lower, 
+                             upper=parameter$upper)
+    r= testStatistic(x,parameter$distance,est)
+    return(r)
+   
   }
   
-  bres=boot(parameter$x,vol.fun,R=parameter$nSimulation)
+  res=rep(0,parameter$nSimulation)
+  m=1
+  size=length(parameter$x)
+  
+  while (m<=parameter$nSimulation) {
+    skip_to_next=FALSE
+    tryCatch({
+      x=sample(parameter$x,size,replace = TRUE)
+      res[m]=vol.fun(x)
+      m=m+1
+    },error = function(e) { skip_to_next=TRUE})
+    if(skip_to_next) { next }  
+  }
+  
+  #bres=boot(parameter$x,vol.fun,R=parameter$nSimulation)
  
-  return(sd(bres$t))
+  return(sd(res))
 }
 
 asymptoticTestBootstrapVariance<-function(parameter){
