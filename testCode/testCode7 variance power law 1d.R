@@ -17,6 +17,7 @@ xmin=1
 parameter$interval=c(2.1,4)
 parameter$nSimulation=200
 parameter$xmin=xmin
+parameter$startValue=c(alpha)
 
 distance<-function(x, param){
   distancePowerLaw(x,xmin,param)
@@ -28,8 +29,8 @@ vB=rep(0,m)
 vA=rep(0,m)
 
 for (i in c(1:m)){
-  #x=rplcon(n,xmin,alpha)
-  x=rexp(n,1)+1
+  x=rplcon(n,xmin,alpha)
+  #x=rexp(n,1)+1
   parameter$x=x
   est=minDistanceEstimator(x,distance,alpha, parameter$interval)
   res=list()
