@@ -9,7 +9,7 @@ randomExteriorPoint<-function(parameter){
     }
     
     # generate large sample from f
-    nx=runif(n*10)
+    nx=runif(n*100)
     nx=sapply(nx, f)
     
     # calculate distance from nx to parametric distribution
@@ -23,6 +23,10 @@ randomExteriorPoint<-function(parameter){
     
     if (dst>=parameter$eps*1.10){
       res$f=f
+      # ff=ecdf(parameter$x)
+      # h=ecdf(x)
+      # plot(ff,col="blue")
+      # lines(h,col="red")
       res$lambda=lambda
       return(res)
     }
@@ -45,7 +49,7 @@ boundaryPoint<-function(parameter, extPoint){
   
   target<-function(w){
     set.seed(30112022)
-    nx=rMixed(n*10,w,rf,re)
+    nx=rMixed(n*100,w,rf,re)
     
     # calculate distance from nx to parametric distribution
     lambda=minDistanceEstimator(nx,parameter$distance, parameter$start_value,parameter$interval)
@@ -68,7 +72,7 @@ simulatePowerAtBoundary<-function(parameter, test){
   set.seed(12112022)
   exteriorPoints=list()
   bndPoints=list()
-  nPoints=1
+  nPoints=3
   
  #generate alternatives from H0
   for (i in c(1:(nPoints))){

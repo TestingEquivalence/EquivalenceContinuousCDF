@@ -37,12 +37,12 @@ for (i in c(1:m)){
   res=list()
   res$estimator=est
   #vTS[i]=testStatistic(x,distance,est)
-  #vB[i]=bootstrapStandardDeviation(parameter,res)
-  vA[i]=standardDeviationPowerLaw(parameter,res)
+  vB[i]=bootstrapStandardDeviation(parameter,res)
+  #vA[i]=standardDeviationPowerLaw(parameter,res)
   print(i)
 }
 
 #sd(vTS)
-#mean(vB)
-mean(vA)
+mean(vB)
+#mean(vA)
 
