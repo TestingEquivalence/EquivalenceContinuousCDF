@@ -13,7 +13,7 @@ randomExteriorPoint<-function(parameter){
     nx=sapply(nx, f)
     
     # calculate distance from nx to parametric distribution
-    lambda=minDistanceEstimator(nx,parameter$distance, parameter$start_value,parameter$interval)
+    lambda=minDistanceEstimator(nx,parameter$distance, parameter$startValue,parameter$interval)
     
     # compute von Mises distance
     dst=testStatistic(nx,parameter$distance, lambda)
@@ -52,7 +52,7 @@ boundaryPoint<-function(parameter, extPoint){
     nx=rMixed(n*100,w,rf,re)
     
     # calculate distance from nx to parametric distribution
-    lambda=minDistanceEstimator(nx,parameter$distance, parameter$start_value,parameter$interval)
+    lambda=minDistanceEstimator(nx,parameter$distance, parameter$startValue,parameter$interval)
     
     # compute von Mises distance
     dst=testStatistic(nx,parameter$distance, lambda)

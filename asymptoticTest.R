@@ -44,14 +44,14 @@ standardDeviationExponential<-function(parameter, results){
 }
 
 asymptoticTest<-function(parameter){
-  # parameter should contain x, distance, start_value,interval, alpha, standard_deviation
+  # parameter should contain x, distance, startValue,interval, alpha, standard_deviation
   
   # list for results
   r=list()
   
   # compute minimum distance estimator
   r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
-                                   parameter$start_value,parameter$interval)
+                                   parameter$startValue,parameter$interval)
   
   # compute von Mises distance
   r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)

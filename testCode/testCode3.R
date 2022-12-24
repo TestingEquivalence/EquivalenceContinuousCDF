@@ -23,7 +23,7 @@ testStatistic(x,distance,est)
 parameter=list()
 parameter$x=x
 parameter$distance=distance 
-parameter$start_value=lambda
+parameter$startValue=lambda
 parameter$interval=interval
 parameter$alpha=0.05
 parameter$nSimulation=1000

@@ -1,12 +1,12 @@
 empiricalBootstrapTest<-function(parameter){
-  # parameter should contain x, distance, start_value,interval, alpha, nSimulation
+  # parameter should contain x, distance, startValue,interval, alpha, nSimulation
   
   # list for results
   r=list()
   
   # compute minimum distance estimator
   r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
-                                   parameter$start_value,parameter$interval)
+                                   parameter$startValue,parameter$interval)
   
   # compute von Mises distance
   r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)

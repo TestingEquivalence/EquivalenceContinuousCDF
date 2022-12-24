@@ -15,7 +15,7 @@ parameter$nSimulation=1000
 parameter$alpha=0.05
 parameter$distance=distanceExponentialDistribution
 parameter$standard_deviation=standardDeviationExponential
-parameter$start_value=1
+parameter$startValue=1
 
 
 # tests at the exponential distribution /log normal distribution
