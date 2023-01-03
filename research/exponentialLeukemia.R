@@ -9,7 +9,7 @@ source("simulation/size.R")
 source("simulation/power.R")
 source("simulation/simulation.R")
 library(MASS)
-library(extraDistr)
+#library(extraDistr)
 
 # prepare data
 
@@ -65,24 +65,25 @@ rPB$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
-parameter$nSimulation=200
+parameter$nSimulation=1000
 
 test<-function(x){
   parameter$x=x
   # r=asymptoticTest(parameter)
-   r=asymptoticTestBootstrapVariance(parameter)
+  # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
+  r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
 res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_ATBV_200.csv")
+fn=paste0("size_tpb_1000.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
 
-parameter$eps=20
+parameter$eps=25
+
 test<-function(x){
   parameter$x=x
   r=asymptoticTest(parameter)
@@ -93,5 +94,5 @@ test<-function(x){
 }
 
 res=simulatePowerAtBoundary(parameter,test)
-
+write.csv(res,"power_AT_25.csv")
 
