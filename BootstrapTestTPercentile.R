@@ -26,7 +26,7 @@ tPercentileBootstrapTest<-function(parameter){
     # compute von-Mises distance
     dstBst=testStatistic(x,parameter$distance,br$estimator)
     
-    bp=list()
+    bp=parameter
     bp$x=x
     stDevBst=parameter$standard_deviation(parameter=bp, results=br)
     return((dstBst-r$distance)/stDevBst)

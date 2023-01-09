@@ -68,6 +68,7 @@ rATBV=asymptoticTestBootstrapVariance(parameter)
 rEB=empiricalBootstrapTest(parameter)
 rPB=tPercentileBootstrapTest(parameter)
 
+rAT$distance
 rAT$min.epsilon
 rATBV$min.epsilon
 rEB$min.epsilon
