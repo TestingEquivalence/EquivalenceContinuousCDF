@@ -77,30 +77,31 @@ standardDeviationPowerLaw<-function(parameter, results){
     xmin=results$estimator[1]
     alpha=results$estimator[2]
   }
+  x=x[x>=xmin]
   
   if (alpha==2){
     alpha=alpha+0.0000001
   }
   n=length(x)
   
-  ef<-function(m,alpha,t){
-    (m-1)*t+t^(2-alpha)/(2-alpha)
+  ef<-function(m,t){
+    (m-1)*t+xmin*(t/xmin)^(2-alpha)/(2-alpha)
   }
   
-  def<-function(m,alpha,s,t){
-    ef(m,alpha,t)-ef(m,alpha,s)
+  def<-function(m,s,t){
+    ef(m,t)-ef(m,s)
   }
   
   pef<-function(k){
     if (k==0){
-      return(def(0,alpha,xmin,x[1]))
+      return(def(0,xmin,x[1]))
     } 
     
     if (k==n){
-      return(-ef(1,alpha,x[n]))
+      return(-ef(1,x[n]))
     }
     
-    return(def(k/n,alpha,x[k],x[k+1]))
+    return(def(k/n,x[k],x[k+1]))
   }
   
   

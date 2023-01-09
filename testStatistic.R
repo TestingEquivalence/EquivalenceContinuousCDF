@@ -41,25 +41,25 @@ distancePowerLaw<-function(x, xmin, alpha){
   x=x[x>=xmin]
   n=length(x)
   
-  g<-function(x, m, xmin, alpha){
+  g<-function(x, m){
     x*(m-1)^2-2*x*(m-1)*(x/xmin)^(1-alpha)/(alpha-2)-xmin*(x/xmin)^(3-2*alpha)/(2*alpha-3)
   }
   
-  dg<-function(s,t,xmin,alpha,m){
-    g(t,m,xmin,alpha)-g(s,m,xmin,alpha)
+  dg<-function(s,t,m){
+    g(t,m)-g(s,m)
   }
   
-  s=dg(xmin,x[1],xmin,alpha,0)
+  s=dg(xmin,x[1],0)
   
   for (i in c(1:(n-1))) {
-    s=s+dg(x[i],x[i+1],xmin,alpha, i/n)
+    s=s+dg(x[i],x[i+1],i/n)
   }
   
-  s=s+0-g(x[n],1,xmin,alpha)
+  s=s+0-g(x[n],1)
   return(s)
 }
 
-minDistanceEstimator<-function(x, distance, param,interval=NULL,
+minDistanceEstimator<-function(x, distance, startValue,interval=NULL,
                                lower=NULL, upper=NULL){
   
   dst<-function(param){
@@ -67,12 +67,12 @@ minDistanceEstimator<-function(x, distance, param,interval=NULL,
     return(v)
   }
   
-  if (length(param)==1){
+  if (length(startValue)==1){
     res=optimise(dst,interval)
     return(res$minimum)
   }
    
-  res=optim(par = param,fn=dst, method="L-BFGS-B", lower=lower, upper=upper)
+  res=optim(par = startValue,fn=dst, method="L-BFGS-B", lower=lower, upper=upper)
   return(res$par)
 }
 

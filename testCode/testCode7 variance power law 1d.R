@@ -11,8 +11,8 @@ source("asymptoticTest.R")
 parameter=list()
 set.seed(11112022)
 
-n=200
-alpha=3
+n=20
+alpha=2.5
 xmin=1
 parameter$interval=c(2.1,4)
 parameter$nSimulation=200
@@ -36,12 +36,12 @@ for (i in c(1:m)){
   res=list()
   res$estimator=est
   #vTS[i]=testStatistic(x,distance,est)
-  vB[i]=bootstrapStandardDeviation(parameter,res)
-  #vA[i]=standardDeviationPowerLaw(parameter,res)
+  #vB[i]=bootstrapStandardDeviation(parameter,res)
+  vA[i]=standardDeviationPowerLaw(parameter,res)
   print(i)
 }
 
 #sd(vTS)
-mean(vB)
-#mean(vA)
+#mean(vB)
+mean(vA)
 

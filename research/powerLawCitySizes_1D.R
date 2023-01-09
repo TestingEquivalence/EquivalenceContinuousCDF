@@ -21,24 +21,24 @@ interval=c(2.01,3)
 
 parameter=list()
 parameter$x=x
-parameter$distance=distancePowerLaw
-parameter$interval=interval
-parameter$alpha=0.05
-parameter$standard_deviation=standardDeviationExponential
-parameter$nSimulation=1000
-
-# compare estimators first
 distance<-function(x, param){
   distancePowerLaw(x, xmin,param)
 }
+parameter$distance=distance
+parameter$interval=interval
+parameter$alpha=0.05
+parameter$standard_deviation=standardDeviationPowerLaw
+parameter$nSimulation=1000
+parameter$startValue=2.5
+parameter$xmin=xmin
 
-
-minDistanceEstimator(x,distance, param=2, interval=interval)
+# compare estimators first
+minDistanceEstimator(x,distance, startValue = parameter$startValue, interval=interval)
 
 rate.md<-function(dat,ind){
   x=dat[ind]
   # compute minimum distance estimator
-  est=minDistanceEstimator(x,distance,param=2, interval)
+  est=minDistanceEstimator(x,distance,startValue = parameter$startValue, interval)
   return(est)
 }
 
