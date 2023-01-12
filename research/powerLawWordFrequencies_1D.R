@@ -15,32 +15,30 @@ library(poweRlaw)
 # prepare data
 
 #vector of city sizes in Germany
-x=readVector("C:\\data\\list_ge.csv")
+x=readVector("C:\\data\\words.csv")
+xmin=1000
+interval=c(1.5,2.5)
 
 parameter=list()
 parameter$x=x
 distance<-function(x, param){
-  distancePowerLaw(x, param[1],param[2])
+  distancePowerLaw(x, xmin,param)
 }
 parameter$distance=distance
 parameter$interval=interval
 parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationPowerLaw
 parameter$nSimulation=1000
-parameter$startValue=c(20000,2.3)
-parameter$lower=c(10000,2)
-parameter$upper=c(30000,3)
-parameter$control=list(parscale=c(1000,1))
+parameter$startValue=1.9
+parameter$xmin=xmin
 
 # compare estimators first
-minDistanceEstimator(x,distance, startValue = parameter$startValue, lower = parameter$lower,
-                     upper = parameter$upper, control=parameter$control)
+minDistanceEstimator(x,distance, startValue = parameter$startValue, interval=interval)
 
 rate.md<-function(dat,ind){
   x=dat[ind]
   # compute minimum distance estimator
-  est=minDistanceEstimator(x,distance, startValue = parameter$startValue, lower = parameter$lower,
-                           upper = parameter$upper, control=parameter$control)
+  est=minDistanceEstimator(x,distance,startValue = parameter$startValue, interval)
   return(est)
 }
 
