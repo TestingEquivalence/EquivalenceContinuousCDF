@@ -59,21 +59,20 @@ distancePowerLaw<-function(x, xmin, alpha){
   return(s)
 }
 
-minDistanceEstimator<-function(x, distance, startValue,interval=NULL,
-                               lower=NULL, upper=NULL, control=NULL){
+minDistanceEstimator<-function(parameter){
   
   dst<-function(param){
-    v=distance(x,param)
+    v=distance(parameter$x,param)
     return(v)
   }
   
-  if (length(startValue)==1){
-    res=optimise(dst,interval)
+  if (length(parameter$startValue)==1){
+    res=optimise(parameter$dst,parameter$interval)
     return(res$minimum)
   }
    
-  res=optim(par = startValue,fn=dst, method="L-BFGS-B",
-            lower=lower, upper=upper, control = control)
+  res=optim(par = parameter$startValue,fn=dst, method="L-BFGS-B",
+            lower=parameter$lower, upper=parameter$upper, control = parameter$control)
   return(res$par)
 }
 

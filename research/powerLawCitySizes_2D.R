@@ -23,7 +23,6 @@ distance<-function(x, param){
   distancePowerLaw(x, param[1],param[2])
 }
 parameter$distance=distance
-parameter$interval=interval
 parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationPowerLaw
 parameter$nSimulation=1000
@@ -48,13 +47,13 @@ rate.md<-function(dat,ind){
 
 est.md=boot(x,rate.md,R=1000)
 est.md$t0
-mean(est.md$t)
-sd(est.md$t)
+mean(est.md$t[,2])
+sd(est.md$t[,2])
 
 rate.ml<-function(dat,ind){
   x=dat[ind]
   m = conpl$new(x)
-  m$setXmin(xmin)
+  m$setXmin(est.md$t0[1])
   estimate_pars(m)$pars[1]
 }
 

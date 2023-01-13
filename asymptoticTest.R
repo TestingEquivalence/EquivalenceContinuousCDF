@@ -50,8 +50,7 @@ asymptoticTest<-function(parameter){
   r=list()
   
   # compute minimum distance estimator
-  r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
-                                   parameter$startValue,parameter$interval)
+  r$estimator=minDistanceEstimator(parameter)
   
   # compute von Mises distance
   r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)
