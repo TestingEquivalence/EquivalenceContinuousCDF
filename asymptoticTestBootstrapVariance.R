@@ -3,18 +3,15 @@ library(boot)
 bootstrapStandardDeviation<-function(parameter, results){
    
   vol.fun<-function(x){
-    
-    if (length(parameter$startValue)==1){
-      est=minDistanceEstimator(x,parameter$distance, 
-                             results$estimator,
-                             parameter$interval)
+    p=parameter
+    p$x=x
+    if (length(p$startValue)==1){
+      est=minDistanceEstimator(p)
       r= testStatistic(x,parameter$distance,est)
       return(r)
     }
     
-    est=minDistanceEstimator(x,parameter$distance,
-                             param = parameter$startValue, lower=parameter$lower, 
-                             upper=parameter$upper)
+    est=minDistanceEstimator(p)
     r= testStatistic(x,parameter$distance,est)
     return(r)
    
@@ -46,8 +43,7 @@ asymptoticTestBootstrapVariance<-function(parameter){
   r=list()
   
   # compute minimum distance estimator
-  r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
-                                         parameter$startValue,parameter$interval)
+  r$estimator=minDistanceEstimator(parameter)
   
   # compute von Mises distance
   r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)

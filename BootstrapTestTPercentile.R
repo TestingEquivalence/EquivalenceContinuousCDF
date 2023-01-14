@@ -5,8 +5,7 @@ tPercentileBootstrapTest<-function(parameter){
   r=list()
   
   # compute minimum distance estimator
-  r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
-                                   parameter$startValue,parameter$interval)
+  r$estimator=minDistanceEstimator(parameter)
   
   # compute von Mises distance
   r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)
@@ -19,10 +18,10 @@ tPercentileBootstrapTest<-function(parameter){
   t.fun<-function(dat,ind){
     x=dat[ind]
     # compute minimum distance estimator
+    p=parameter
+    p$x=x
     br=list()
-    br$estimator=minDistanceEstimator(x,parameter$distance, 
-                             r$estimator,
-                             parameter$interval)
+    br$estimator=minDistanceEstimator(p)
     # compute von-Mises distance
     dstBst=testStatistic(x,parameter$distance,br$estimator)
     

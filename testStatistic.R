@@ -62,12 +62,12 @@ distancePowerLaw<-function(x, xmin, alpha){
 minDistanceEstimator<-function(parameter){
   
   dst<-function(param){
-    v=distance(parameter$x,param)
+    v=parameter$distance(parameter$x,param)
     return(v)
   }
   
   if (length(parameter$startValue)==1){
-    res=optimise(parameter$dst,parameter$interval)
+    res=optimise(dst,parameter$interval)
     return(res$minimum)
   }
    

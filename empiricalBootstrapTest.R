@@ -5,8 +5,7 @@ empiricalBootstrapTest<-function(parameter){
   r=list()
   
   # compute minimum distance estimator
-  r$estimator=minDistanceEstimator(parameter$x,parameter$distance,
-                                   parameter$startValue,parameter$interval)
+  r$estimator=minDistanceEstimator(parameter)
   
   # compute von Mises distance
   r$distance=testStatistic(parameter$x,parameter$distance,  r$estimator)
@@ -14,10 +13,10 @@ empiricalBootstrapTest<-function(parameter){
   #calculate bootstrap distribution
   t.fun<-function(dat,ind){
     x=dat[ind]
+    p=parameter
+    p$x=x
     # compute minimum distance estimator
-    est=minDistanceEstimator(x,parameter$distance, 
-                             r$estimator,
-                             parameter$interval)
+    est=minDistanceEstimator(p)
     # compute von-Mises distance
     testStatistic(x,parameter$distance,est)
   }
