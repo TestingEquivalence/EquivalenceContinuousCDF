@@ -87,12 +87,12 @@ test<-function(x){
 }
 
 res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_tpb_1000.csv")
+fn=paste0("size_pTB_1000.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
 
-parameter$eps=25
+parameter$eps=20
 
 test<-function(x){
   parameter$x=x
@@ -104,5 +104,5 @@ test<-function(x){
 }
 
 res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_25.csv")
+write.csv(res,"power_AT_20.csv")
 
