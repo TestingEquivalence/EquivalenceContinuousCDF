@@ -53,8 +53,10 @@ boundaryPoint<-function(parameter, extPoint){
     set.seed(30112022)
     nx=rMixed(n*100,w,rf,re)
     
+    p=parameter
+    p$x=nx
     # calculate distance from nx to parametric distribution
-    lambda=minDistanceEstimator(nx,parameter$distance, parameter$startValue,parameter$interval)
+    lambda=minDistanceEstimator(p)
     
     # compute von Mises distance
     dst=testStatistic(nx,parameter$distance, lambda)
@@ -74,7 +76,7 @@ simulatePowerAtBoundary<-function(parameter, test){
   set.seed(12112022)
   exteriorPoints=list()
   bndPoints=list()
-  nPoints=100
+  nPoints=2
   
  #generate alternatives from H0
   for (i in c(1:(nPoints))){
