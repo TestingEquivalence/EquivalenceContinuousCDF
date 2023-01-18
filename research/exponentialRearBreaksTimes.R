@@ -12,16 +12,11 @@ library(MASS)
 #library(extraDistr)
 
 # prepare data
-
-x=dataSetRearBreaks
-interval=c(0.000001,1)
-start=1
-
 parameter=list()
-parameter$x=x
+parameter$x=dataSetRearBreaks
 parameter$distance=distanceExponentialDistribution
-parameter$startValue=start
-parameter$interval=interval
+parameter$startValue=1
+parameter$interval=c(0.000001,1)
 parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationExponential
 parameter$nSimulation=1000
@@ -30,11 +25,11 @@ parameter$nSimulation=1000
 rate.md<-function(dat,ind){
   x=dat[ind]
   # compute minimum distance estimator
-  est=minDistanceEstimator(x,distanceExponentialDistribution,start,interval)
+  est=minDistanceEstimator(parameter)
   return(est)
 }
 
-est.md=boot(x,rate.md,R=1000)
+est.md=boot(parameter$x,rate.md,R=1000)
 est.md$t0
 mean(est.md$t)
 sd(est.md$t)
