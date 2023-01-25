@@ -25,7 +25,9 @@ parameter$nSimulation=1000
 rate.md<-function(dat,ind){
   x=dat[ind]
   # compute minimum distance estimator
-  est=minDistanceEstimator(parameter)
+  p=parameter
+  p$x=x
+  est=minDistanceEstimator(p)
   return(est)
 }
 
@@ -41,7 +43,7 @@ rate.ml<-function(dat,ind){
   return(est$estimate)
 }
 
-est.ml=boot(x,rate.ml,R=1000)
+est.ml=boot(parameter$x,rate.ml,R=1000)
 est.ml$t0
 mean(est.ml$t)
 sd(est.ml$t)
@@ -53,6 +55,7 @@ rATBV=asymptoticTestBootstrapVariance(parameter)
 rEB=empiricalBootstrapTest(parameter)
 rPB=tPercentileBootstrapTest(parameter)
 
+rAT$distance
 rAT$min.epsilon
 rATBV$min.epsilon
 rEB$min.epsilon
@@ -60,7 +63,7 @@ rPB$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
-parameter$nSimulation=200
+parameter$nSimulation=1000
 
 test<-function(x){
   parameter$x=x
@@ -72,12 +75,12 @@ test<-function(x){
 }
 
 res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_tPB_200.csv")
+fn=paste0("size_tBP_1000.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
 
-parameter$eps=25
+parameter$eps=20
 
 test<-function(x){
   parameter$x=x
@@ -89,5 +92,5 @@ test<-function(x){
 }
 
 res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_25.csv")
+write.csv(res,"power_AT_20.csv")
 
