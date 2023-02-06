@@ -81,7 +81,7 @@ rPB$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
-parameter$nSimulation=1000
+parameter$nSimulation=200
 
 test<-function(x){
   parameter$x=x
@@ -92,8 +92,8 @@ test<-function(x){
   return(r$min.epsilon)
 }
 
-res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_tPB_1000.csv")
+res=simulatePowerAtPowerLaw(test, rAT$estimator,parameter$xmin,n=length(parameter$x),nSimulation =1000 )
+fn=paste0("size_ptb_200.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
