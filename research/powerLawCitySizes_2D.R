@@ -32,22 +32,21 @@ parameter$upper=c(30000,3)
 parameter$control=list(parscale=c(1000,1))
 
 # compare estimators first
-minDistanceEstimator(x,distance, startValue = parameter$startValue, lower = parameter$lower,
-                     upper = parameter$upper, control=parameter$control)
+minDistanceEstimator(parameter)
 
 rate.md<-function(dat,ind){
   x=dat[ind]
   # compute minimum distance estimator
-  est=minDistanceEstimator(x,distance, startValue = parameter$startValue, lower = parameter$lower,
-                           upper = parameter$upper, control=parameter$control)
+  p=parameter
+  p$x=x
+  est=minDistanceEstimator(p)
   return(est)
 }
 
-
-
+set.seed(10071977)
 est.md=boot(x,rate.md,R=1000)
 est.md$t0
-mean(est.md$t[,2])
+sd(est.md$t[,1])
 sd(est.md$t[,2])
 
 rate.ml<-function(dat,ind){
@@ -57,16 +56,21 @@ rate.ml<-function(dat,ind){
   estimate_pars(m)$pars[1]
 }
 
+
+set.seed(10071977)
 est.ml=boot(x,rate.ml,R=1000)
 est.ml$t0
 mean(est.ml$t)
 sd(est.ml$t)
 
 # perform tests
-
+set.seed(10071977)
 rAT=asymptoticTest(parameter)
+set.seed(10071977)
 rATBV=asymptoticTestBootstrapVariance(parameter)
+set.seed(10071977)
 rEB=empiricalBootstrapTest(parameter)
+set.seed(10071977)
 rPB=tPercentileBootstrapTest(parameter)
 
 rAT$distance
@@ -81,21 +85,21 @@ parameter$nSimulation=200
 
 test<-function(x){
   parameter$x=x
-  r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
+  r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
-n=length(x[x>=xmin])
-res=simulatePowerAtPowerLaw(test,beta=rAT$estimator,xmin=parameter$xmin,n,nSimulation=1000)
-fn=paste0("size_AT.csv")
+res=simulatePowerAtPowerLaw(test, rAT$estimator,parameter$xmin,n=length(parameter$x),nSimulation =1000 )
+fn=paste0("size_ptb_200.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
 
-parameter$eps=20
+parameter$eps=25
+
 test<-function(x){
   parameter$x=x
   r=asymptoticTest(parameter)
@@ -106,5 +110,5 @@ test<-function(x){
 }
 
 res=simulatePowerAtBoundary(parameter,test)
-
+write.csv(res,"power_AT_25.csv")
 
