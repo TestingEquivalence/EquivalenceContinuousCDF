@@ -14,8 +14,7 @@ library(poweRlaw)
 
 # prepare data
 
-#vector of city sizes in Germany
-x=readVector("C:\\data\\list_ge.csv")
+x=readVector("C:\\data\\words.csv")
 
 parameter=list()
 parameter$x=x
@@ -26,9 +25,9 @@ parameter$distance=distance
 parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationPowerLaw
 parameter$nSimulation=1000
-parameter$startValue=c(20000,2.3)
-parameter$lower=c(10000,2)
-parameter$upper=c(30000,3)
+parameter$startValue=c(1000,2.1)
+parameter$lower=c(1000,1.5)
+parameter$upper=c(1000,2.5)
 parameter$control=list(parscale=c(1000,1))
 
 # compare estimators first

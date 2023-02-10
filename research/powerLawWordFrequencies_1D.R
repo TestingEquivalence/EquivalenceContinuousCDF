@@ -14,7 +14,6 @@ library(poweRlaw)
 
 # prepare data
 
-#vector of city sizes in Germany
 x=readVector("C:\\data\\words.csv")
 xmin=1000
 interval=c(1.5,2.5)
