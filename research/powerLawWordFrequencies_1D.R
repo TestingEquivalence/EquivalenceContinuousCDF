@@ -14,8 +14,9 @@ library(poweRlaw)
 
 # prepare data
 
-x=readVector("C:\\data\\words.csv")
 xmin=1000
+x=readVector("C:\\data\\words.csv")
+x=x[x>=xmin]
 interval=c(1.5,2.5)
 
 parameter=list()
@@ -47,7 +48,6 @@ rate.md<-function(dat,ind){
 set.seed(10071977)
 est.md=boot(x,rate.md,R=1000)
 est.md$t0
-mean(est.md$t)
 sd(est.md$t)
 
 rate.ml<-function(dat,ind){
@@ -60,7 +60,6 @@ rate.ml<-function(dat,ind){
 set.seed(10071977)
 est.ml=boot(x,rate.ml,R=1000)
 est.ml$t0
-mean(est.ml$t)
 sd(est.ml$t)
 
 # perform tests
@@ -69,14 +68,11 @@ rAT=asymptoticTest(parameter)
 set.seed(10071977)
 rATBV=asymptoticTestBootstrapVariance(parameter)
 set.seed(10071977)
-rEB=empiricalBootstrapTest(parameter)
-set.seed(10071977)
 rPB=tPercentileBootstrapTest(parameter)
 
 rAT$distance
 rAT$min.epsilon
 rATBV$min.epsilon
-rEB$min.epsilon
 rPB$min.epsilon
 
 # simulate power at estimated distribution

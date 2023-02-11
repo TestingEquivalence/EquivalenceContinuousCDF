@@ -26,8 +26,8 @@ parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationPowerLaw
 parameter$nSimulation=1000
 parameter$startValue=c(1000,2.1)
-parameter$lower=c(1000,1.5)
-parameter$upper=c(1000,2.5)
+parameter$lower=c(100,1.5)
+parameter$upper=c(5000,2.5)
 parameter$control=list(parscale=c(1000,1))
 
 # compare estimators first
@@ -43,7 +43,7 @@ rate.md<-function(dat,ind){
 }
 
 set.seed(10071977)
-est.md=boot(x,rate.md,R=1000)
+est.md=boot(x,ratemd,R=1000)
 est.md$t0
 sd(est.md$t[,1])
 sd(est.md$t[,2])

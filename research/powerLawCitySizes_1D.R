@@ -15,8 +15,9 @@ library(poweRlaw)
 # prepare data
 
 #vector of city sizes in Germany
-x=readVector("C:\\data\\list_ge.csv")
 xmin=20000
+x=readVector("C:\\data\\list_ge.csv")
+x=x[x>=xmin]
 interval=c(2.01,3)
 
 parameter=list()
@@ -47,7 +48,6 @@ rate.md<-function(dat,ind){
 set.seed(10071977)
 est.md=boot(x,rate.md,R=1000)
 est.md$t0
-mean(est.md$t)
 sd(est.md$t)
 
 rate.ml<-function(dat,ind){
@@ -60,7 +60,6 @@ rate.ml<-function(dat,ind){
 set.seed(10071977)
 est.ml=boot(x,rate.ml,R=1000)
 est.ml$t0
-mean(est.ml$t)
 sd(est.ml$t)
 
 # perform tests
@@ -69,20 +68,17 @@ rAT=asymptoticTest(parameter)
 set.seed(10071977)
 rATBV=asymptoticTestBootstrapVariance(parameter)
 set.seed(10071977)
-rEB=empiricalBootstrapTest(parameter)
-set.seed(10071977)
 rPB=tPercentileBootstrapTest(parameter)
 
 rAT$distance
 rAT$min.epsilon
 rATBV$min.epsilon
-rEB$min.epsilon
 rPB$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
 parameter$nSimulation=200
-n=length(x[x>=xmin])
+n=length(x)
 
 test<-function(x){
   parameter$x=x
@@ -93,7 +89,7 @@ test<-function(x){
   return(r$min.epsilon)
 }
 
-res=simulatePowerAtPowerLaw(test, rAT$estimator,parameter$xmin,n,nSimulation =1000 )
+res=simulatePowerAtPowerLaw(test, rAT$estimator, parameter$xmin, n, nSimulation=1000)
 fn=paste0("size_AT.csv")
 write.csv(res,fn)
 
