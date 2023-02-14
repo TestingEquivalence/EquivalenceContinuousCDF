@@ -88,7 +88,7 @@ test<-function(x){
   return(r$min.epsilon)
 }
 
-n=length(x[x>=xmin])
+n=length(x)
 
 res=simulatePowerAtPowerLaw(test, rAT$estimator,parameter$xmin,n,nSimulation =1000 )
 fn=paste0("size_AT.csv")
