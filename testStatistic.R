@@ -58,7 +58,7 @@ distancePowerLaw<-function(x, xmin, alpha){
   s=s+0-g(x[n],1)
   
   if (!is.finite(s)){
-    print("distance is not numeric")
+    print("distance is not finite")
   }
   
   return(s)
