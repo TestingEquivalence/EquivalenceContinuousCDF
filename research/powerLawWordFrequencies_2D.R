@@ -15,7 +15,8 @@ library(poweRlaw)
 # prepare data
 
 x=readVector("C:\\data\\words.csv")
-x=x[x>=300]
+xlow=500
+x=x[x>=xlow]
 
 parameter=list()
 parameter$x=x
@@ -27,7 +28,7 @@ parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationPowerLaw
 parameter$nSimulation=1000
 parameter$startValue=c(1000,2.1)
-parameter$lower=c(500,1.6)
+parameter$lower=c(xlow,1.6)
 parameter$upper=c(1500,2.5)
 parameter$control=list(parscale=c(1000,1))
 
