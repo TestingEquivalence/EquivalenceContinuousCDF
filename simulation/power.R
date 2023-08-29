@@ -91,20 +91,20 @@ simulatePowerAtBoundary<-function(parameter, test){
     bndPoints[[i]]=ls
   }
   
-  # cl=getCluster()
-  # power=parSapply(cl,bndPoints, simulatePowerAtDistribution, test=test,  
-  #                 n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
-  # stopCluster(cl)
+  cl=getCluster()
+  power=parSapply(cl,bndPoints, simulatePowerAtDistribution, test=test,
+                  n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
+  stopCluster(cl)
   
   # power=sapply(bndPoints, simulatePowerAtDistribution, test=test,  
   #              n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
 
-  power=rep(0,nPoints)
-  for (i in c(1:nPoints)){
-    power[i]=simulatePowerAtDistribution(bndPoints[[i]], test, n=length(parameter$x), nSimulation=1000,
-                                  parameter$eps)
-    print(i)
-  }
+  # power=rep(0,nPoints)
+  # for (i in c(1:nPoints)){
+  #   power[i]=simulatePowerAtDistribution(bndPoints[[i]], test, n=length(parameter$x), nSimulation=1000,
+  #                                 parameter$eps)
+  #   print(i)
+  # }
 
   for (i in c(1:nPoints)){
     fname=paste0("r",i,".csv")
