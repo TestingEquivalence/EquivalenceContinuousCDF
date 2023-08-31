@@ -60,15 +60,17 @@ sd(est.ml$t)
 # perform tests
 set.seed(10071977)
 rAT=asymptoticTest(parameter)
+rAT$distance
+rAT$min.epsilon  
+
 set.seed(10071977)
 rATBV=asymptoticTestBootstrapVariance(parameter)
+
 set.seed(10071977)
-rEB=empiricalBootstrapTest(parameter)
-set.seed(10071977)
+parameter$nSimTPercentile=200
 rPB=tPercentileBootstrapTest(parameter)
 
-rAT$distance
-rAT$min.epsilon
+
 rATBV$min.epsilon
 rEB$min.epsilon
 rPB$min.epsilon
