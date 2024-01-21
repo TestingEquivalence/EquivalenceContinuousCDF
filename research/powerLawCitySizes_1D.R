@@ -95,7 +95,7 @@ write.csv(res,fn)
 
 # simulate power at random boundary points
 
-parameter$eps=25
+parameter$eps=250
 
 test<-function(x){
   parameter$x=x
@@ -107,5 +107,5 @@ test<-function(x){
 }
 
 res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_25.csv")
+write.csv(res,"power_AT_250.csv")
 

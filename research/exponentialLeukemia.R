@@ -91,8 +91,15 @@ fn=paste0("size_PTBT_200.csv")
 write.csv(res,fn)
 
  # simulate power at random boundary points
+rAT=asymptoticTest(parameter)
 
-parameter$eps=25
+
+parameter$eps=20
+myLambda=rAT$estimator
+
+parameter$basePoint<-function(m){
+  rexp(m,rate=myLambda)
+}
 
 test<-function(x){
   parameter$x=x
@@ -104,5 +111,5 @@ test<-function(x){
 }
 
 res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_25.csv")
+write.csv(res,"power_AT_20.csv")
 

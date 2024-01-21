@@ -1,7 +1,8 @@
 randomExteriorPoint<-function(parameter){
   repeat{
     n=length(parameter$x)
-    x=sample(parameter$x,n, replace = TRUE,)
+    x=sample(parameter$x,n, replace = TRUE)
+    # x=sample(parameter$x,100, replace = TRUE,)
     
     # linear interpolated empirical CDF function
     f<-function(u){
@@ -19,18 +20,14 @@ randomExteriorPoint<-function(parameter){
     
     # compute von Mises distance
     dst=testStatistic(nx,parameter$distance, lambda)
+    # print(dst)
     
-    
-    res=list()
-    
-    if (dst>=parameter$eps*1.10){
-      res$f=f
+    if (dst>=parameter$eps*1.01){
       # ff=ecdf(parameter$x)
       # h=ecdf(x)
       # plot(ff,col="blue")
       # lines(h,col="red")
-      res$lambda=lambda
-      return(res)
+      return(f)
     }
   }
 }
@@ -40,20 +37,16 @@ boundaryPoint<-function(parameter, extPoint){
   
   rf<-function(m){
     x=runif(m)
-    x=sapply(x, extPoint$f)
+    x=sapply(x, extPoint)
     return(x)
-  }
-  
-  re<-function(m){
-    rexp(m,rate=extPoint$lambda)
   }
   
   
   target<-function(w){
     set.seed(30112022)
-    nx=rMixed(n*100,w,rf,re)
+    nx=rMixed(n*100,w,rf,parameter$basePoint)
     
-    p=parameter
+    p=parameter 
     p$x=nx
     # calculate distance from nx to parametric distribution
     lambda=minDistanceEstimator(p)
@@ -66,7 +59,7 @@ boundaryPoint<-function(parameter, extPoint){
   
   res=uniroot(target,c(0,1) )
   resf<-function(m){
-    rMixed(m,res$root,rf,re)
+    rMixed(m,res$root,rf,parameter$basePoint)
   }
   
   return(resf)
@@ -81,8 +74,9 @@ simulatePowerAtBoundary<-function(parameter, test){
  #generate alternatives from H0
   for (i in c(1:(nPoints))){
     exteriorPoints[[i]]=randomExteriorPoint(parameter)
+    print(paste0("ext point: ",i))
   }
-  
+  print("exterior points found!")
   
   for (i in c(1:nPoints)){
     ls=list()
@@ -90,6 +84,7 @@ simulatePowerAtBoundary<-function(parameter, test){
     ls$nr=i
     bndPoints[[i]]=ls
   }
+  print("boundary points found")
   
   cl=getCluster()
   power=parSapply(cl,bndPoints, simulatePowerAtDistribution, test=test,
