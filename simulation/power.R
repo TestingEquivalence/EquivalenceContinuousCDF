@@ -22,7 +22,7 @@ randomExteriorPoint<-function(parameter){
     dst=testStatistic(nx,parameter$distance, lambda)
     # print(dst)
     
-    if (dst>=parameter$eps*1.01){
+    if (dst>=parameter$eps*1.1){
       # ff=ecdf(parameter$x)
       # h=ecdf(x)
       # plot(ff,col="blue")
