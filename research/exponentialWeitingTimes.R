@@ -24,7 +24,7 @@ parameter$startValue=start
 parameter$interval=interval
 parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationExponential
-parameter$nSimulation=1000
+parameter$nSimulation=200
 
 # compare estimators first
 minDistanceEstimator(parameter)
@@ -91,8 +91,15 @@ fn=paste0("size_tPB_1000.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
+rAT=asymptoticTest(parameter)
 
-parameter$eps=25
+parameter$eps=0.08
+
+myLambda=rAT$estimator
+
+parameter$basePoint<-function(m){
+  rexp(m,rate=myLambda)
+}
 
 test<-function(x){
   parameter$x=x
