@@ -94,8 +94,14 @@ fn=paste0("size_AT.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
+rAT=asymptoticTest(parameter)
 
-parameter$eps=250
+parameter$eps=200
+parameter$beta=rAT$estimator
+
+parameter$basePoint<-function(m){
+  rplcon(m,parameter$xmin,parameter$beta)
+}
 
 test<-function(x){
   parameter$x=x

@@ -95,10 +95,10 @@ rAT=asymptoticTest(parameter)
 
 
 parameter$eps=20
-myLambda=rAT$estimator
+parameter$lambda=rAT$estimator
 
 parameter$basePoint<-function(m){
-  rexp(m,rate=myLambda)
+  rexp(m,rate=parameter$lambda)
 }
 
 test<-function(x){

@@ -82,11 +82,10 @@ write.csv(res,fn)
 rAT=asymptoticTest(parameter)
 
 parameter$eps=16
-
-myLambda=rAT$estimator
+parameter$lambda=rAT$estimator
 
 parameter$basePoint<-function(m){
-  rexp(m,rate=myLambda)
+  rexp(m,rate=parameter$lambda)
 }
 
 test<-function(x){

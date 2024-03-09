@@ -1,8 +1,8 @@
 randomExteriorPoint<-function(parameter){
   repeat{
     n=length(parameter$x)
-    x=sample(parameter$x,n, replace = TRUE)
-    # x=sample(parameter$x,100, replace = TRUE,)
+    # x=sample(parameter$x,n, replace = TRUE)
+    x=sample(parameter$x,300, replace = TRUE,)
     
     # linear interpolated empirical CDF function
     f<-function(u){
@@ -20,7 +20,7 @@ randomExteriorPoint<-function(parameter){
     
     # compute von Mises distance
     dst=testStatistic(nx,parameter$distance, lambda)
-    # print(dst)
+    print(dst)
     
     if (dst>=parameter$eps*1.1){
       # ff=ecdf(parameter$x)
@@ -69,7 +69,7 @@ simulatePowerAtBoundary<-function(parameter, test){
   set.seed(12112022)
   exteriorPoints=list()
   bndPoints=list()
-  nPoints=100
+  nPoints=2
   
  #generate alternatives from H0
   for (i in c(1:(nPoints))){
