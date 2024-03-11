@@ -2,7 +2,7 @@ randomExteriorPoint<-function(parameter){
   repeat{
     n=length(parameter$x)
     # x=sample(parameter$x,n, replace = TRUE)
-    x=sample(parameter$x,300, replace = TRUE,)
+    x=sample(parameter$x,200, replace = TRUE,)
     
     # linear interpolated empirical CDF function
     f<-function(u){
@@ -69,7 +69,7 @@ simulatePowerAtBoundary<-function(parameter, test){
   set.seed(12112022)
   exteriorPoints=list()
   bndPoints=list()
-  nPoints=2
+  nPoints=100
   
  #generate alternatives from H0
   for (i in c(1:(nPoints))){

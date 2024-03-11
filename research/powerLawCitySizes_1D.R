@@ -15,23 +15,21 @@ library(poweRlaw)
 # prepare data
 
 #vector of city sizes in Germany
-xmin=20000
-x=readVector("C:\\data\\list_ge.csv")
-x=x[x>=xmin]
-interval=c(2.01,3)
-
 parameter=list()
-parameter$x=x
-distance<-function(x, param){
-  distancePowerLaw(x, xmin,param)
-}
-parameter$distance=distance
-parameter$interval=interval
+parameter$interval=c(2.01,3)
 parameter$alpha=0.05
 parameter$standard_deviation=standardDeviationPowerLaw
 parameter$nSimulation=1000
 parameter$startValue=2.5
-parameter$xmin=xmin
+parameter$xmin=20000
+
+x=readVector("C:\\data\\list_ge.csv")
+parameter$x=x[x>=parameter$xmin]
+
+distance<-function(x, param){
+  distancePowerLaw(x, parameter$xmin,param)
+}
+parameter$distance=distance
 
 # compare estimators first
 minDistanceEstimator(parameter)
@@ -113,5 +111,5 @@ test<-function(x){
 }
 
 res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_250.csv")
+write.csv(res,"power_AT_200.csv")
 

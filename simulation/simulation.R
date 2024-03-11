@@ -9,7 +9,7 @@ getCluster<-function(){
   clusterExport(cl,c("rMixed","simulatePowerAtDistribution","parameter","asymptoticTest",
                      "asymptoticTestBootstrapVariance","standardDeviationExponential",
                      "minDistanceEstimator","testStatistic","bootstrapStandardDeviation",
-                     "boot","tPercentileBootstrapTest", "parameter"))
+                     "boot","tPercentileBootstrapTest", "parameter", "rplcon","distancePowerLaw"))
   
   return(cl)
 }
