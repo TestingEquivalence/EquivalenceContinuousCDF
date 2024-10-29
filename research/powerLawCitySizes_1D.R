@@ -75,25 +75,24 @@ rPB$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
-parameter$nSimulation=200
+parameter$nSimulation=1000
 n=length(x)
 
 test<-function(x){
   parameter$x=x
-  r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
+  r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
 res=simulatePowerAtPowerLaw(test, rAT$estimator, parameter$xmin, n, nSimulation=1000)
-fn=paste0("size_AT.csv")
+fn=paste0("size_pTBV_1000.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
 rAT=asymptoticTest(parameter)
-
 parameter$eps=200
 parameter$beta=rAT$estimator
 
@@ -103,13 +102,20 @@ parameter$basePoint<-function(m){
 
 test<-function(x){
   parameter$x=x
-  r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
+  r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
-res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_200.csv")
+bndPoints=generateBoundaryPoints(nPoints = 100, parameter)
+fname="boundary_points.rds"
+saveRDS(bndPoints,file=fname)
+
+fname="boundary_points.rds"
+bndPoints=readRDS(fname)
+res=simulatePowerAtBoundary(parameter,test, bndPoints)
+write.csv(res,"power_tPBT_200.csv")
+
 

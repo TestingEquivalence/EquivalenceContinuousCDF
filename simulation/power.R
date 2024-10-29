@@ -65,13 +65,14 @@ boundaryPoint<-function(parameter, extPoint){
   return(resf)
 }
 
-simulatePowerAtBoundary<-function(parameter, test){
-  set.seed(12112022)
+generateBoundaryPoints<-function(nPoints,parameter){
+  
   exteriorPoints=list()
   bndPoints=list()
-  nPoints=100
   
- #generate alternatives from H0
+  #generate alternatives from H0
+  set.seed(12112022)
+  
   for (i in c(1:(nPoints))){
     exteriorPoints[[i]]=randomExteriorPoint(parameter)
     print(paste0("ext point: ",i))
@@ -85,7 +86,10 @@ simulatePowerAtBoundary<-function(parameter, test){
     bndPoints[[i]]=ls
   }
   print("boundary points found")
-  
+  return(bndPoints)
+}
+
+simulatePowerAtBoundary<-function(parameter, test, bndPoints){
   cl=getCluster()
   power=parSapply(cl,bndPoints, simulatePowerAtDistribution, test=test,
                   n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
@@ -94,6 +98,7 @@ simulatePowerAtBoundary<-function(parameter, test){
   # power=sapply(bndPoints, simulatePowerAtDistribution, test=test,  
   #              n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
 
+  # nPoints=length(bndPoints)
   # power=rep(0,nPoints)
   # for (i in c(1:nPoints)){
   #   power[i]=simulatePowerAtDistribution(bndPoints[[i]], test, n=length(parameter$x), nSimulation=1000,
