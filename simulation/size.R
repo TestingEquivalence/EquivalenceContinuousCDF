@@ -43,8 +43,12 @@ simulatePowerAtDistribution<-function(point, test, n, nSimulation, eps){
   return(r)
 }
 
-simulatePowerAtPowerLaw<-function(test, beta, xmin, n, nSimulation){
+simulatePowerAtPowerLaw<-function(test, beta, xmin, n, nSimulation,orderName="temp"){
   set.seed(10071977)
+  #prepare
+  if(!dir.exists(orderName)){
+    dir.create(orderName)
+  }
   
   sim=list()
   for (i in c(1:nSimulation)){
@@ -53,9 +57,20 @@ simulatePowerAtPowerLaw<-function(test, beta, xmin, n, nSimulation){
   
   res=rep(0,nSimulation)
   for (i in c(1:nSimulation)){
-    res[i]=test(sim[[i]])
+    fname=paste0("r",i,".rds")
+    fname=file.path(orderName,fname)
+    
+    if (file.exists(fname)){
+      res[i]=readRDS(fname)
+    }
+    else {
+      res[i]=test(sim[[i]])
+      saveRDS(res[i],fname)
+    }
+    
     print(i)
   }
   
+  unlink(orderName,recursive = TRUE)
   return(res)
 }
