@@ -28,7 +28,7 @@ tPercentileBootstrapTest<-function(parameter){
     bp=parameter
     bp$x=x
     stDevBst=parameter$standard_deviation(parameter=bp, results=br)
-    print(paste("time:", Sys.time()))
+    # print(paste("time:", Sys.time()))
     return((dstBst-r$distance)/stDevBst)
   }
   

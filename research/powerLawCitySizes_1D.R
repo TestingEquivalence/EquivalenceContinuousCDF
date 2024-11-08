@@ -81,10 +81,10 @@ rAT=asymptoticTest(parameter)
 parameter$nSimulation=1000
 n=length(parameter$x)
 
-res=simulatePowerAtPowerLaw(test=tPercentileBootstrapTest, 
+res=simulatePowerAtPowerLaw(test=asymptoticTest, 
                             beta=rAT$estimator,xmin=parameter$xmin,n=n, nSimulation = 1000,
                             parameter)
-fn=paste0("size_pTBV_1000.csv")
+fn=paste0("size_AT.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points

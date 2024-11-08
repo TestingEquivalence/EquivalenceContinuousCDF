@@ -57,7 +57,6 @@ simulatePowerAtPowerLaw<-function(test, beta, xmin, n, nSimulation,parameter,ord
   
   res=rep(0,nSimulation)
   for (i in c(1:nSimulation)){
-    print(paste("start:",i))
     fname=paste0("r",i,".rds")
     fname=file.path(orderName,fname)
     
@@ -67,14 +66,13 @@ simulatePowerAtPowerLaw<-function(test, beta, xmin, n, nSimulation,parameter,ord
     else 
     {
       parameter$x=sim[[i]]
-      print(parameter$x)
       testRes=test(parameter)
       res[i]=testRes$min.epsilon
       saveRDS(res[i],fname)
     }
     
     
-    print("end:",i)
+    print(i)
   }
   
   unlink(orderName,recursive = TRUE)
