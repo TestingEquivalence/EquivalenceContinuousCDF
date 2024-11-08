@@ -1,8 +1,7 @@
 randomExteriorPoint<-function(parameter){
   repeat{
     n=length(parameter$x)
-    # x=sample(parameter$x,n, replace = TRUE)
-    x=sample(parameter$x,200, replace = TRUE,)
+    x=sample(parameter$x,n, replace = TRUE)
     
     # linear interpolated empirical CDF function
     f<-function(u){
