@@ -31,7 +31,7 @@ parameter$standard_deviation=standardDeviationPowerLaw
 parameter$nSimulation=1000
 parameter$startValue=1.9
 parameter$xmin=xmin
-
+x=NULL
 
 # compare estimators first
 minDistanceEstimator(parameter)
@@ -78,21 +78,14 @@ rPB$min.epsilon
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
 parameter$nSimulation=200
+n=length(parameter$x)
 
-test<-function(x){
-  parameter$x=x
-  r=asymptoticTest(parameter)
-  # r=asymptoticTestBootstrapVariance(parameter)
-  # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
-  return(r$min.epsilon)
-}
-
-n=length(x)
-
-res=simulatePowerAtPowerLaw(test, rAT$estimator,parameter$xmin,n,nSimulation =1000 )
-fn=paste0("size_AT.csv")
+res=simulatePowerAtPowerLaw(test=asymptoticTest, 
+                            beta=rAT$estimator,xmin=parameter$xmin,n=n, nSimulation = 1000,
+                            parameter, orderName = "worldFreqSize")
+fn=paste0("size_world_freq_AT.csv")
 write.csv(res,fn)
+
 
 # simulate power at random boundary points
 
