@@ -1,5 +1,5 @@
 
-simulatePowerAtExponential<-function(test, rate, n, nSimulation){
+simulatePowerAtExponential<-function(test, rate, n, nSimulation, parameter){
   set.seed(10071977)
   
   sim=list()
@@ -9,7 +9,9 @@ simulatePowerAtExponential<-function(test, rate, n, nSimulation){
   
   res=rep(0,nSimulation)
   for (i in c(1:nSimulation)){
-    res[i]=test(sim[[i]])
+    parameter$x=sim[[i]]
+    testRes=test(parameter)
+    res[i]=testRes$min.epsilon
     print(i)
   }
 

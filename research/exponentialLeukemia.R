@@ -64,7 +64,7 @@ rAT$distance
 rAT$min.epsilon  
 
 set.seed(10071977)
-parameter$nSimulation=1000
+parameter$nSimulation=200
 rATBV=asymptoticTestBootstrapVariance(parameter)
 rATBV$min.epsilon
 
@@ -78,16 +78,9 @@ rPB$min.epsilon
 rAT=asymptoticTest(parameter)
 parameter$nSimulation=200
 
-test<-function(x){
-  parameter$x=x
-  # r=asymptoticTest(parameter)
-  # r=asymptoticTestBootstrapVariance(parameter)
-  r=tPercentileBootstrapTest(parameter)
-  return(r$min.epsilon)
-}
-
-res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_PTBT_200.csv")
+res=simulatePowerAtExponential(asymptoticTestBootstrapVariance,rAT$estimator,n=length(parameter$x),
+                               nSimulation = 1000, parameter)
+fn=paste0("size_ATBT_200.csv")
 write.csv(res,fn)
 
  # simulate power at random boundary points

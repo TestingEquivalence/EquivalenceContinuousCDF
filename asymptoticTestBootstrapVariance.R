@@ -1,16 +1,11 @@
 library(boot)
 
-bootstrapStandardDeviation<-function(parameter, results){
+bootstrapStandardDeviation<-function(parameter){
    
   vol.fun<-function(x){
     p=parameter
     p$x=x
-    if (length(p$startValue)==1){
-      est=minDistanceEstimator(p)
-      r= testStatistic(x,parameter$distance,est)
-      return(r)
-    }
-    
+
     est=minDistanceEstimator(p)
     r= testStatistic(x,parameter$distance,est)
     return(r)
@@ -31,8 +26,6 @@ bootstrapStandardDeviation<-function(parameter, results){
     if(skip_to_next) { next }  
   }
   
-  #bres=boot(parameter$x,vol.fun,R=parameter$nSimulation)
- 
   return(sd(res))
 }
 
@@ -50,7 +43,7 @@ asymptoticTestBootstrapVariance<-function(parameter){
   
   #compute standard deviation (square root of the variance)
   
-  stDev = bootstrapStandardDeviation(parameter, results = r)
+  stDev = bootstrapStandardDeviation(parameter)
   qt=qnorm(1-parameter$alpha,0,1)
   
   r$min.epsilon = r$distance + qt*stDev

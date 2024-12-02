@@ -80,10 +80,10 @@ rAT=asymptoticTest(parameter)
 parameter$nSimulation=200
 n=length(parameter$x)
 
-res=simulatePowerAtPowerLaw(test=asymptoticTest, 
+res=simulatePowerAtPowerLaw(test=tPercentileBootstrapTest, 
                             beta=rAT$estimator,xmin=parameter$xmin,n=n, nSimulation = 1000,
                             parameter, orderName = "worldFreqSize")
-fn=paste0("size_world_freq_AT.csv")
+fn=paste0("size_world_freq_tPBT_200.csv")
 write.csv(res,fn)
 
 
