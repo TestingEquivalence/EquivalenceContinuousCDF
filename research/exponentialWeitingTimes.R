@@ -77,18 +77,11 @@ rPB$min.epsilon
 rAT=asymptoticTest(parameter)
 parameter$nSimulation=1000
 
-test<-function(x){
-  parameter$x=x
-  # r=asymptoticTest(parameter)
-  # r=asymptoticTestBootstrapVariance(parameter)
-  # r=empiricalBootstrapTest(parameter)
-  r=tPercentileBootstrapTest(parameter)
-  return(r$min.epsilon)
-}
-
-res=simulatePowerAtExponential(test,rAT$estimator,n=length(parameter$x), nSimulation = 1000)
-fn=paste0("size_tPB_1000.csv")
+res=simulatePowerAtExponential(asymptoticTestBootstrapVariance,rAT$estimator,n=length(parameter$x),
+                               nSimulation = 1000, parameter)
+fn=paste0("size_ATBT_200.csv")
 write.csv(res,fn)
+
 
 # simulate power at random boundary points
 rAT=asymptoticTest(parameter)
