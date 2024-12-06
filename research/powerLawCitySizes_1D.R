@@ -71,6 +71,11 @@ parameter$nSimulation=1000
 set.seed(10071977)
 rPB=tPercentileBootstrapTest(parameter)
 
+parameter$nSimulation=200
+parameter$nSimulationVariance=50
+rPBB=tPercentileBootstrapTest_BootstrapVariance(parameter)
+rPBB$min.epsilon
+
 rAT$distance
 rAT$min.epsilon
 rATBV$min.epsilon

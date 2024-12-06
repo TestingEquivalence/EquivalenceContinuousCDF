@@ -51,14 +51,17 @@ sd(est.ml$t)
 # perform tests
 
 rAT=asymptoticTest(parameter)
-rATBV=asymptoticTestBootstrapVariance(parameter)
-rEB=empiricalBootstrapTest(parameter)
-rPB=tPercentileBootstrapTest(parameter)
-
 rAT$distance
 rAT$min.epsilon
+
+set.seed(10071977)
+parameter$nSimulation=10000
+rATBV=asymptoticTestBootstrapVariance(parameter)
 rATBV$min.epsilon
-rEB$min.epsilon
+
+set.seed(10071977)
+parameter$nSimulation=10000
+rPB=tPercentileBootstrapTest(parameter)
 rPB$min.epsilon
 
 # simulate power at estimated distribution
