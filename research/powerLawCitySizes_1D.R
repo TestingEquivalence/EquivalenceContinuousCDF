@@ -62,24 +62,24 @@ est.ml$t0
 sd(est.ml$t)
 
 # perform tests
-set.seed(10071977)
 rAT=asymptoticTest(parameter)
-set.seed(10071977)
-rATBV=asymptoticTestBootstrapVariance(parameter)
-
-parameter$nSimulation=1000
-set.seed(10071977)
-rPB=tPercentileBootstrapTest(parameter)
-
-parameter$nSimulation=200
-parameter$nSimulationVariance=50
-rPBB=tPercentileBootstrapTest_BootstrapVariance(parameter)
-rPBB$min.epsilon
-
 rAT$distance
 rAT$min.epsilon
+
+set.seed(10071977)
+parameter$nSimulation=10000
+rATBV=asymptoticTestBootstrapVariance(parameter)
 rATBV$min.epsilon
+
+set.seed(10071977)
+rPB=tPercentileBootstrapTest(parameter)
 rPB$min.epsilon
+
+parameter$nSimulation=5000
+parameter$nSimulationVariance=50
+set.seed(10071977)
+rPBBV=tPercentileBootstrapTest_BootstrapVariance(parameter)
+rPBBV$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
@@ -105,7 +105,6 @@ test<-function(x){
   parameter$x=x
   # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
-  # r=empiricalBootstrapTest(parameter)
   r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }

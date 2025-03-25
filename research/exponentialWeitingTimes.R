@@ -71,13 +71,20 @@ set.seed(10071977)
 rPB=tPercentileBootstrapTest(parameter)
 rPB$min.epsilon
 
+parameter$nSimulation=1000
+parameter$nSimulationVariance=200
+set.seed(10071977)
+rPBBV=tPercentileBootstrapTest_BootstrapVariance(parameter)
+rPBBV$min.epsilon
+
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
-parameter$nSimulation=1000
+parameter$nSimulation=500
+parameter$nSimulationVariance=50
 
-res=simulatePowerAtExponential(asymptoticTestBootstrapVariance,rAT$estimator,n=length(parameter$x),
+res=simulatePowerAtExponential(tPercentileBootstrapTest_BootstrapVariance,rAT$estimator,n=length(parameter$x),
                                nSimulation = 1000, parameter)
-fn=paste0("size_ATBT_200.csv")
+fn=paste0("size_PTBV_WeitingTimes_500_50.csv")
 write.csv(res,fn)
 
 

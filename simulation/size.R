@@ -1,20 +1,39 @@
 
-simulatePowerAtExponential<-function(test, rate, n, nSimulation, parameter){
-  set.seed(10071977)
+simulatePowerAtExponential<-function(test, rate, n, nSimulation, parameter, orderName="temp"){
   
+  if(!dir.exists(orderName)){
+    dir.create(orderName)
+  }
+  
+  # compute points at given exponential distribution
+  set.seed(10071977)
   sim=list()
   for (i in c(1:nSimulation)){
     sim[[i]]=rexp(n,rate)
   }
   
   res=rep(0,nSimulation)
+  # perform simulation
   for (i in c(1:nSimulation)){
-    parameter$x=sim[[i]]
-    testRes=test(parameter)
-    res[i]=testRes$min.epsilon
-    print(i)
+    fname=paste0("r",i,".rds")
+    fname=file.path(orderName,fname)
+    
+    if (file.exists(fname)){
+      res[i]=readRDS(fname)
+      print(i)
+      set.seed(as.integer(Sys.time()) %% .Machine$integer.max)
+    }
+    else {
+      parameter$x=sim[[i]]
+      testRes=test(parameter)
+      res[i]=testRes$min.epsilon
+      saveRDS(res[i],fname)
+      print(i)
+    }
+    
   }
-
+  
+  unlink(orderName,recursive = TRUE)
   return(res)
 }
 
