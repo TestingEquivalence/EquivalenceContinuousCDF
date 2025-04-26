@@ -83,6 +83,8 @@ simulatePowerAtPowerLaw<-function(test, beta, xmin, n, nSimulation,parameter,ord
     
     if (file.exists(fname)){
       res[i]=readRDS(fname)
+      set.seed(as.integer(Sys.time()) %% .Machine$integer.max)
+      
     } 
     else 
     {

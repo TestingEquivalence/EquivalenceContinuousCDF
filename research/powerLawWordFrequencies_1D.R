@@ -57,23 +57,26 @@ rate.ml<-function(dat,ind){
   estimate_pars(m)$pars[1]
 }
 
-set.seed(10071977)
-est.ml=boot(x,rate.ml,R=1000)
-est.ml$t0
-sd(est.ml$t)
-
 # perform tests
-set.seed(10071977)
 rAT=asymptoticTest(parameter)
-set.seed(10071977)
-rATBV=asymptoticTestBootstrapVariance(parameter)
-set.seed(10071977)
-rPB=tPercentileBootstrapTest(parameter)
-
 rAT$distance
 rAT$min.epsilon
+
+set.seed(10071977)
+parameter$nSimulation=10000
+rATBV=asymptoticTestBootstrapVariance(parameter)
 rATBV$min.epsilon
+
+set.seed(10071977)
+parameter$nSimulation=2000
+rPB=tPercentileBootstrapTest(parameter)
 rPB$min.epsilon
+
+parameter$nSimulation=1000
+parameter$nSimulationVariance=200
+set.seed(10071977)
+rPBBV=tPercentileBootstrapTest_BootstrapVariance(parameter)
+rPBBV$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)

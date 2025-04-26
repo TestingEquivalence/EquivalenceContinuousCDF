@@ -100,15 +100,19 @@ parameter$basePoint<-function(m){
   rexp(m,rate=parameter$lambda)
 }
 
+parameter$nSimulation=200
+parameter$nSimulationVariance=20
+
 test<-function(x){
   parameter$x=x
-  r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
   # r=tPercentileBootstrapTest(parameter)
+  r = tPercentileBootstrapTest_BootstrapVariance(parameter)
   return(r$min.epsilon)
 }
 
 res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_20.csv")
+write.csv(res,"size_PTBV_200_50.csv")
 

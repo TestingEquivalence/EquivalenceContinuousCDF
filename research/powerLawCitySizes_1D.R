@@ -75,8 +75,8 @@ set.seed(10071977)
 rPB=tPercentileBootstrapTest(parameter)
 rPB$min.epsilon
 
-parameter$nSimulation=5000
-parameter$nSimulationVariance=50
+parameter$nSimulation=1000
+parameter$nSimulationVariance=200
 set.seed(10071977)
 rPBBV=tPercentileBootstrapTest_BootstrapVariance(parameter)
 rPBBV$min.epsilon
@@ -84,11 +84,12 @@ rPBBV$min.epsilon
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
 parameter$nSimulation=200
+parameter$nSimulationVariance=50
 n=length(parameter$x)
 
 res=simulatePowerAtPowerLaw(test=tPercentileBootstrapTest, 
                             beta=rAT$estimator,xmin=parameter$xmin,n=n, nSimulation = 1000,
-                            parameter)
+                            parameter, orderName = "CitySize1D_tPBT_200")
 fn=paste0("size_city_sizes_tPBT_200.csv")
 write.csv(res,fn)
 

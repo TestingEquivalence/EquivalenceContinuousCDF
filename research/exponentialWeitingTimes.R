@@ -83,7 +83,7 @@ parameter$nSimulation=500
 parameter$nSimulationVariance=50
 
 res=simulatePowerAtExponential(tPercentileBootstrapTest_BootstrapVariance,rAT$estimator,n=length(parameter$x),
-                               nSimulation = 1000, parameter)
+                               nSimulation = 1000, parameter, orderName = "size_PTBV_WeitingTimes_500_50")
 fn=paste0("size_PTBV_WeitingTimes_500_50.csv")
 write.csv(res,fn)
 
