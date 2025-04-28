@@ -9,7 +9,8 @@ source("simulation/size.R")
 source("simulation/power.R")
 source("simulation/simulation.R")
 library(MASS)
-#library(extraDistr)
+library(extraDistr)
+library(poweRlaw)
 
 # prepare data
 
@@ -101,18 +102,24 @@ parameter$basePoint<-function(m){
 }
 
 parameter$nSimulation=200
-parameter$nSimulationVariance=20
+parameter$nSimulationVariance=50
 
 test<-function(x){
   parameter$x=x
-  # r=asymptoticTest(parameter)
+  r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
   # r=tPercentileBootstrapTest(parameter)
-  r = tPercentileBootstrapTest_BootstrapVariance(parameter)
+  # r = tPercentileBootstrapTest_BootstrapVariance(parameter)
   return(r$min.epsilon)
 }
 
-res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"size_PTBV_200_50.csv")
+bndPoints=generateBoundaryPoints(nPoints = 100, parameter)
+fname="boundary_points.rds"
+saveRDS(bndPoints,file=fname)
+
+fname="boundary_points.rds"
+bndPoints=readRDS(fname)
+res=simulatePowerAtBoundary(parameter,test, bndPoints)
+write.csv(res,"power_Leukemia_tPBT_BV_200_50.csv")
 

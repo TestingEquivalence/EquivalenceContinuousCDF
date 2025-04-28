@@ -97,7 +97,8 @@ simulatePowerAtBoundary<-function(parameter, test, bndPoints){
   # power=sapply(bndPoints, simulatePowerAtDistribution, test=test,  
   #              n=length(parameter$x), nSimulation=1000, eps=parameter$eps)
 
-  # nPoints=length(bndPoints)
+  nPoints=length(bndPoints)
+  
   # power=rep(0,nPoints)
   # for (i in c(1:nPoints)){
   #   power[i]=simulatePowerAtDistribution(bndPoints[[i]], test, n=length(parameter$x), nSimulation=1000,
@@ -109,6 +110,7 @@ simulatePowerAtBoundary<-function(parameter, test, bndPoints){
     fname=paste0("r",i,".csv")
     file.remove(fname)
   }
+  
   return(power)
 }
 
