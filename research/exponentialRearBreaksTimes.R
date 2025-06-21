@@ -9,7 +9,8 @@ source("simulation/size.R")
 source("simulation/power.R")
 source("simulation/simulation.R")
 library(MASS)
-#library(extraDistr)
+library(extraDistr)
+library(poweRlaw)
 
 # prepare data
 parameter=list()
@@ -83,12 +84,16 @@ write.csv(res,fn)
 # simulate power at random boundary points
 rAT=asymptoticTest(parameter)
 
-parameter$eps=16
+
+parameter$eps=20
 parameter$lambda=rAT$estimator
 
 parameter$basePoint<-function(m){
   rexp(m,rate=parameter$lambda)
 }
+
+parameter$nSimulation=200
+parameter$nSimulationVariance=50
 
 test<-function(x){
   parameter$x=x
@@ -96,9 +101,15 @@ test<-function(x){
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
   # r=tPercentileBootstrapTest(parameter)
+  # r = tPercentileBootstrapTest_BootstrapVariance(parameter)
   return(r$min.epsilon)
 }
 
-res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_16.csv")
+bndPoints=generateBoundaryPoints(nPoints = 100, parameter)
+fname="boundary_points.rds"
+saveRDS(bndPoints,file=fname)
 
+fname="boundary_points.rds"
+bndPoints=readRDS(fname)
+res=simulatePowerAtBoundary(parameter,test, bndPoints)
+write.csv(res,"power_RearBreaks_tPBT_BV_e20_200_50.csv")
