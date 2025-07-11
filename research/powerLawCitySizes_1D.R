@@ -83,14 +83,14 @@ rPBBV$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
-parameter$nSimulation=1000
+parameter$nSimulation=200
 parameter$nSimulationVariance=50
 n=length(parameter$x)
 
 res=simulatePowerAtPowerLaw(test=tPercentileBootstrapTest, 
                             beta=rAT$estimator,xmin=parameter$xmin,n=n, nSimulation = 1000,
-                            parameter, orderName = "CitySize1D_tPBT_1000")
-fn=paste0("size_city_sizes_tPBT_1000.csv")
+                            parameter, orderName = "CitySize1D_tPBT_200_50")
+fn=paste0("size_city_sizes_tPBT_200_50.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
