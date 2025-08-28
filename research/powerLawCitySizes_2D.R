@@ -70,15 +70,16 @@ rAT$distance
 rAT$min.epsilon
 
 set.seed(10071977)
-parameter$nSimulation=500
+parameter$nSimulation=2000
 rATBV=asymptoticTestBootstrapVariance(parameter)
 rATBV$min.epsilon
 
 set.seed(10071977)
+parameter$nSimulation=2000
 rPB=tPercentileBootstrapTest(parameter)
 rPB$min.epsilon
 
-parameter$nSimulation=1000
+parameter$nSimulation=500
 parameter$nSimulationVariance=200
 set.seed(10071977)
 rPBBV=tPercentileBootstrapTest_BootstrapVariance(parameter)

@@ -62,52 +62,67 @@ est.ml=boot(x,rate.ml,R=1000)
 est.ml$t0
 sd(est.ml$t)
 
-# perform tests
-set.seed(10071977)
-rAT=asymptoticTest(parameter)
-set.seed(10071977)
-rATBV=asymptoticTestBootstrapVariance(parameter)
-# set.seed(10071977)
-# rEB=empiricalBootstrapTest(parameter)
-set.seed(10071977)
-rPB=tPercentileBootstrapTest(parameter)
 
+
+# perform tests
+rAT=asymptoticTest(parameter)
 rAT$distance
 rAT$min.epsilon
+
+set.seed(10071977)
+parameter$nSimulation=2000
+rATBV=asymptoticTestBootstrapVariance(parameter)
 rATBV$min.epsilon
-# rEB$min.epsilon
+
+set.seed(10071977)
+parameter$nSimulation=2000
+rPB=tPercentileBootstrapTest(parameter)
 rPB$min.epsilon
+
+parameter$nSimulation=500
+parameter$nSimulationVariance=50
+set.seed(10071977)
+rPBBV=tPercentileBootstrapTest_BootstrapVariance(parameter)
+rPBBV$min.epsilon
 
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
 parameter$nSimulation=200
+parameter$nSimulationVariance=50
+n=length(parameter$x)
 
-test<-function(x){
-  parameter$x=x
-  r=asymptoticTest(parameter)
-  # r=asymptoticTestBootstrapVariance(parameter)
-  # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
-  return(r$min.epsilon)
-}
-
-res=simulatePowerAtPowerLaw(test, rAT$estimator[2],rAT$estimator[1],n=length(parameter$x),nSimulation =1000 )
-fn=paste0("size_AT.csv")
+res=simulatePowerAtPowerLaw(test=tPercentileBootstrapTest, 
+                            beta=rAT$estimator,xmin=parameter$xmin,n=n, nSimulation = 1000,
+                            parameter, orderName = "CitySize1D_tPBT_200_50")  
+fn=paste0("size_city_sizes_tPBT_200_50.csv")
 write.csv(res,fn)
 
 # simulate power at random boundary points
+rAT=asymptoticTest(parameter)
+parameter$eps=200
+parameter$beta=rAT$estimator
 
-parameter$eps=25
+parameter$basePoint<-function(m){
+  rplcon(m,parameter$xmin,parameter$beta)
+}
 
 test<-function(x){
   parameter$x=x
-  r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
-  # r=empiricalBootstrapTest(parameter)
-  # r=tPercentileBootstrapTest(parameter)
+  r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
-res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_25.csv")
+bndPoints=generateBoundaryPoints(nPoints = 1, parameter)
+fname="boundary_points.rds"
+saveRDS(bndPoints,file=fname)
+
+fname="boundary_points.rds"
+bndPoints=readRDS(fname)
+res=simulatePowerAtBoundary(parameter,test, bndPoints)
+write.csv(res,"power_tPBT_200.csv")
+
+
+
 

@@ -91,23 +91,32 @@ write.csv(res,fn)
 # simulate power at random boundary points
 rAT=asymptoticTest(parameter)
 
-parameter$eps=0.08
 
+parameter$eps=0.10
 parameter$lambda=rAT$estimator
 
 parameter$basePoint<-function(m){
   rexp(m,rate=parameter$lambda)
 }
 
+parameter$nSimulation=200
+parameter$nSimulationVariance=50
+
 test<-function(x){
   parameter$x=x
-  r=asymptoticTest(parameter)
+  # r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
   # r=empiricalBootstrapTest(parameter)
   # r=tPercentileBootstrapTest(parameter)
+  r = tPercentileBootstrapTest_BootstrapVariance(parameter)
   return(r$min.epsilon)
 }
 
-res=simulatePowerAtBoundary(parameter,test)
-write.csv(res,"power_AT_25.csv")
+bndPoints=generateBoundaryPoints(nPoints = 100, parameter)
+fname="boundary_points.rds"
+saveRDS(bndPoints,file=fname)
 
+fname="boundary_points.rds"
+bndPoints=readRDS(fname)
+res=simulatePowerAtBoundary(parameter,test, bndPoints)
+write.csv(res,"power_WaitingTimea_tPBT_BV_e20_200_0dot10.csv")
