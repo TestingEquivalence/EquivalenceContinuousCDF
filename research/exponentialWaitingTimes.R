@@ -10,6 +10,7 @@ source("simulation/power.R")
 source("simulation/simulation.R")
 library(MASS)
 library(extraDistr)
+library(poweRlaw)
 
 # prepare data
 
@@ -119,4 +120,4 @@ saveRDS(bndPoints,file=fname)
 fname="boundary_points.rds"
 bndPoints=readRDS(fname)
 res=simulatePowerAtBoundary(parameter,test, bndPoints)
-write.csv(res,"power_WaitingTimea_tPBT_BV_e20_200_0dot10.csv")
+write.csv(res,"power_WaitingTimes_tPBT_BV_e20_200_0dot10.csv")
