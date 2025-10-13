@@ -1,6 +1,7 @@
 randomExteriorPoint<-function(parameter){
   repeat{
-    n=length(parameter$x)
+    # n=length(parameter$x)
+    n=200
     x=sample(parameter$x,n, replace = TRUE)
     
     # linear interpolated empirical CDF function
@@ -72,18 +73,29 @@ generateBoundaryPoints<-function(nPoints,parameter){
   #generate alternatives from H0
   set.seed(12112022)
   
-  for (i in c(1:(nPoints))){
+  for (i in c(1:(nPoints+10))){
     exteriorPoints[[i]]=randomExteriorPoint(parameter)
     print(paste0("ext point: ",i))
   }
   print("exterior points found!")
   
-  for (i in c(1:nPoints)){
+ i=1
+ nSuccess=0
+ while (nSuccess<nPoints){
+  tryCatch({
     ls=list()
     ls$rdst=boundaryPoint(parameter,exteriorPoints[[i]])
     ls$nr=i
     bndPoints[[i]]=ls
-  }
+    print(paste0("bnd point: ",i))
+    i=i+1
+    nSuccess=nSuccess+1
+  }, error = function(e) {
+    print(paste0("error: ",i))
+    i=i+1
+  })
+ }
+    
   print("boundary points found")
   return(bndPoints)
 }

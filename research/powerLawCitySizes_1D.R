@@ -104,14 +104,14 @@ parameter$basePoint<-function(m){
 
 test<-function(x){
   parameter$x=x
-  # r=asymptoticTest(parameter)
+  r=asymptoticTest(parameter)
   # r=asymptoticTestBootstrapVariance(parameter)
-  r=tPercentileBootstrapTest(parameter)
+  # r=tPercentileBootstrapTest(parameter)
   return(r$min.epsilon)
 }
 
-bndPoints=generateBoundaryPoints(nPoints = 1, parameter)
-fname="boundary_points.rds"
+bndPoints=generateBoundaryPoints(nPoints = 100, parameter)
+fname="boundary_points_n200_eps200.rds"
 saveRDS(bndPoints,file=fname)
 
 fname="boundary_points.rds"

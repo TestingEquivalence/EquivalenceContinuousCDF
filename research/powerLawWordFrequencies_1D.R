@@ -81,6 +81,7 @@ rPBBV$min.epsilon
 # simulate power at estimated distribution
 rAT=asymptoticTest(parameter)
 parameter$nSimulation=200
+parameter$nSimulationVariance=50
 n=length(parameter$x)
 
 res=simulatePowerAtPowerLaw(test=tPercentileBootstrapTest, 
