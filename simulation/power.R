@@ -81,19 +81,19 @@ generateBoundaryPoints<-function(nPoints,parameter){
   
  i=1
  nSuccess=0
- while (nSuccess<nPoints){
+ while (nSuccess<=nPoints){
   tryCatch({
     ls=list()
     ls$rdst=boundaryPoint(parameter,exteriorPoints[[i]])
     ls$nr=i
     bndPoints[[i]]=ls
     print(paste0("bnd point: ",i))
-    i=i+1
     nSuccess=nSuccess+1
   }, error = function(e) {
     print(paste0("error: ",i))
-    i=i+1
+    
   })
+   i=i+1
  }
     
   print("boundary points found")
