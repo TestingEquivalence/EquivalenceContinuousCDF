@@ -25,7 +25,6 @@ parameter$xmin=20000
 
 x=readVector("C:\\data\\list_ge.csv")
 parameter$x=x[x>=parameter$xmin]
-x=NULL
 
 distance<-function(x, param){
   distancePowerLaw(x, parameter$xmin,param)
@@ -67,11 +66,12 @@ rAT$distance
 rAT$min.epsilon
 
 set.seed(10071977)
-parameter$nSimulation=10000
+parameter$nSimulation=5000
 rATBV=asymptoticTestBootstrapVariance(parameter)
 rATBV$min.epsilon
 
 set.seed(10071977)
+parameter$nSimulation=2000
 rPB=tPercentileBootstrapTest(parameter)
 rPB$min.epsilon
 
@@ -95,7 +95,7 @@ write.csv(res,fn)
 
 # simulate power at random boundary points
 rAT=asymptoticTest(parameter)
-parameter$eps=200
+parameter$eps=250
 parameter$beta=rAT$estimator
 
 parameter$basePoint<-function(m){
@@ -111,7 +111,7 @@ test<-function(x){
 }
 
 bndPoints=generateBoundaryPoints(nPoints = 100, parameter)
-fname="boundary_points_n200_eps200.rds"
+fname="boundary_points_n200_eps250.rds"
 saveRDS(bndPoints,file=fname)
 
 fname="boundary_points.rds"
